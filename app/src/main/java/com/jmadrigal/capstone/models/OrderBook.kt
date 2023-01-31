@@ -1,3 +1,14 @@
 package com.jmadrigal.capstone.models
 
-data class OrderBook(val id : String)
+import com.google.gson.annotations.SerializedName
+
+data class OrderBook(
+    @SerializedName("asks")
+    val asks: List<Ask>,
+    @SerializedName("bids")
+    val bids: List<Bid>,
+    @SerializedName("sequence")
+    val sequence: Long,
+    @SerializedName("updated_at")
+    val updatedAt: String,
+)
