@@ -1,11 +1,11 @@
-package com.jmadrigal.capstone.features.books.view
+package com.jmadrigal.capstone.features.books.view.activity
 
 import android.os.Bundle
-import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.jmadrigal.capstone.R
 import com.jmadrigal.capstone.databinding.ActivityMainBinding
+import com.jmadrigal.capstone.features.books.view.fragment.AvailableBooksFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -18,14 +18,20 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         addFragment(AvailableBooksFragment())
 
-        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+       /* onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                when (supportFragmentManager.findFragmentById(R.id.fragmentContainer)) {
+                val fragment = supportFragmentManager.findFragmentById(R.id.fragmentContainer)
+                when (fragment) {
                     null, is AvailableBooksFragment -> finish()
                     else -> supportFragmentManager.popBackStack()
                 }
+
+                if (isEnabled) {
+                    isEnabled = false
+                    onBackPressedDispatcher.onBackPressed()
+                }
             }
-        })
+        })*/
     }
 
     private fun addFragment(fragment: Fragment) {
@@ -35,5 +41,13 @@ class MainActivity : AppCompatActivity() {
             .commitAllowingStateLoss()
     }
 
+    override fun onBackPressed() {
+        val fragment = supportFragmentManager.findFragmentById(R.id.fragmentContainer)
+        if (fragment is AvailableBooksFragment){
+            finish()
+        } else{
+            super.onBackPressed()
+        }
+    }
 
 }

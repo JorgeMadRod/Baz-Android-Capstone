@@ -1,14 +1,12 @@
-package com.jmadrigal.capstone.models
+package com.jmadrigal.capstone.core.models
 
 import com.google.gson.annotations.SerializedName
 
 data class Bid(
     @SerializedName("amount")
-    val amount: String,
+    var amount: String,
     @SerializedName("book")
-    val book: String,
-    @SerializedName("oid")
-    val oid: String,
+    var book: String,
     @SerializedName("price")
-    val price: String
+    var price: String
 )

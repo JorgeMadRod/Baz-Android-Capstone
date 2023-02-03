@@ -1,4 +1,4 @@
-package com.jmadrigal.capstone.features.books.view
+package com.jmadrigal.capstone.features.books.view.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,9 +8,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jmadrigal.capstone.R
+import com.jmadrigal.capstone.core.models.AvailableBook
 import com.jmadrigal.capstone.databinding.FragmentAvailableBooksBinding
+import com.jmadrigal.capstone.features.book.view.fragment.BookDetailsFragment
+import com.jmadrigal.capstone.features.books.view.adapter.AvailableBooksAdapter
 import com.jmadrigal.capstone.features.books.viewmodel.BooksViewModel
-import com.jmadrigal.capstone.models.Book
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -19,7 +21,6 @@ class AvailableBooksFragment : Fragment() {
     private var _binding: FragmentAvailableBooksBinding? = null
     private val binding get() = _binding
     private val viewModel: BooksViewModel by activityViewModels()
-    private val availableBooksAdapter: AvailableBooksAdapter by lazy { AvailableBooksAdapter { onBookSelected(it) } }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = FragmentAvailableBooksBinding.inflate(inflater, container, false)
@@ -38,12 +39,13 @@ class AvailableBooksFragment : Fragment() {
 
     private fun setupObservers() {
         viewModel.books.observe(viewLifecycleOwner) {
-            setupRecycler()
+            setupRecycler(it)
         }
     }
 
-    private fun setupRecycler() {
-        availableBooksAdapter.submitList(viewModel.books.value?.payload)
+    private fun setupRecycler(bookList: List<AvailableBook>) {
+        val availableBooksAdapter = AvailableBooksAdapter { onBookSelected(it) }
+        availableBooksAdapter.submitList(bookList)
         binding!!.recycler.apply {
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(true)
@@ -51,10 +53,13 @@ class AvailableBooksFragment : Fragment() {
         }
     }
 
-    private fun onBookSelected(book: Book) {
-        val fragment = BookDetailsFragment().apply {
+    private fun onBookSelected(book: AvailableBook) {
+        navToDetails(book)
+    }
 
-        }
+    private fun navToDetails(book: AvailableBook) {
+        println("navToDetails")
+        val fragment = BookDetailsFragment.newInstance(book)
         parentFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainer, fragment)
             .addToBackStack(fragment::class.java.canonicalName)

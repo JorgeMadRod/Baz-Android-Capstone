@@ -1,7 +1,8 @@
 package com.jmadrigal.capstone.di
 
-import com.jmadrigal.capstone.network.BitsoRepository
-import com.jmadrigal.capstone.network.BitsoService
+import com.jmadrigal.capstone.core.network.BitsoService
+import com.jmadrigal.capstone.features.book.repository.BookRepository
+import com.jmadrigal.capstone.features.books.repository.BooksRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,6 +15,11 @@ object RepositoryModule {
 
     @Singleton
     @Provides
-    fun providesBitsoRepository(bitsoService: BitsoService) =
-        BitsoRepository(bitsoService)
+    fun providesBooksRepository(bitsoService: BitsoService) =
+        BooksRepository(bitsoService)
+
+    @Singleton
+    @Provides
+    fun providesBookRepository(bitsoService: BitsoService) =
+        BookRepository(bitsoService)
 }

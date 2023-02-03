@@ -1,4 +1,4 @@
-package com.jmadrigal.capstone.features.books.view
+package com.jmadrigal.capstone.features.books.view.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,9 +9,9 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.jmadrigal.capstone.databinding.RowAvailableBooksBinding
-import com.jmadrigal.capstone.models.Book
+import com.jmadrigal.capstone.core.models.AvailableBook
 
-class AvailableBooksAdapter(private val bookSelected: (Book) -> Unit) : ListAdapter<Book, AvailableBooksAdapter.ViewHolder>(DiffUtilsCallBack()) {
+class AvailableBooksAdapter(private var bookSelected: (AvailableBook) -> Unit) : ListAdapter<AvailableBook, AvailableBooksAdapter.ViewHolder>(DiffUtilsCallBack()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = RowAvailableBooksBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -37,10 +37,11 @@ class AvailableBooksAdapter(private val bookSelected: (Book) -> Unit) : ListAdap
 
     inner class ViewHolder(val binding: RowAvailableBooksBinding) : RecyclerView.ViewHolder(binding.root)
 
-    private class DiffUtilsCallBack : DiffUtil.ItemCallback<Book>() {
-        override fun areItemsTheSame(oldItem: Book, newItem: Book): Boolean = oldItem == newItem
+    private class DiffUtilsCallBack : DiffUtil.ItemCallback<AvailableBook>() {
+        override fun areItemsTheSame(oldItem: AvailableBook, newItem: AvailableBook): Boolean =
+            oldItem == newItem
 
-        override fun areContentsTheSame(oldItem: Book, newItem: Book): Boolean =
-            oldItem.bid == newItem.bid
+        override fun areContentsTheSame(oldItem: AvailableBook, newItem: AvailableBook): Boolean =
+            oldItem.book == newItem.book
     }
 }
