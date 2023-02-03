@@ -10,7 +10,7 @@
         android:id="@+id/txtTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="22sp"
+        android:textSize="@dimen/title_size"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -18,9 +18,9 @@
         android:id="@+id/lblPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="@dimen/margin_20"
         android:text="@string/price"
-        android:textSize="18sp"
+        android:textSize="@dimen/secondary_title_size"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtTitle" />
 
@@ -28,8 +28,8 @@
         android:id="@+id/txtPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:textSize="20sp"
+        android:layout_marginTop="@dimen/margin_10"
+        android:textSize="@dimen/text_size_20"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lblPrice" />
 
@@ -38,7 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:textSize="14sp"
+        android:textSize="@dimen/text_size_14"
         app:drawableEndCompat="@drawable/ic_arrow_up"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/lblPrice" />
@@ -48,7 +48,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:textSize="14sp"
+        android:textSize="@dimen/text_size_14"
         app:drawableEndCompat="@drawable/ic_arrow_down"
         app:layout_constraintBottom_toBottomOf="@+id/txtPrice"
         app:layout_constraintEnd_toEndOf="parent"
@@ -65,12 +65,12 @@
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Asks" />
+            android:text="@string/asks" />
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Bids" />
+            android:text="@string/bids" />
     </com.google.android.material.tabs.TabLayout>
 
     <androidx.recyclerview.widget.RecyclerView

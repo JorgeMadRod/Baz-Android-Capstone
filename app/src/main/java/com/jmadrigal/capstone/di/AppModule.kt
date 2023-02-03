@@ -3,6 +3,8 @@ package com.jmadrigal.capstone.di
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.jmadrigal.capstone.core.network.BitsoService
+import com.jmadrigal.capstone.core.utils.Constants.BASE_URL
+import com.jmadrigal.capstone.core.utils.Constants.DEFAULT_TIME_OUT
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -32,9 +34,9 @@ object AppModule {
         loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
         val client = OkHttpClient().newBuilder()
             .addInterceptor(loggingInterceptor)
-            .readTimeout(2, TimeUnit.MINUTES)
-            .writeTimeout(2, TimeUnit.MINUTES)
-            .connectTimeout(2, TimeUnit.MINUTES)
+            .readTimeout(DEFAULT_TIME_OUT, TimeUnit.MINUTES)
+            .writeTimeout(DEFAULT_TIME_OUT, TimeUnit.MINUTES)
+            .connectTimeout(DEFAULT_TIME_OUT, TimeUnit.MINUTES)
             .retryOnConnectionFailure(true)
         return client.build()
     }
@@ -45,7 +47,7 @@ object AppModule {
     fun provideRetrofit(gson: Gson, client: OkHttpClient): Retrofit.Builder =
         Retrofit.Builder()
             .client(client)
-            .baseUrl("https://api.bitso.com/v3/")
+            .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create(gson))
 
     @Singleton

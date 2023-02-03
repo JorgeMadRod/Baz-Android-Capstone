@@ -58,7 +58,6 @@ class AvailableBooksFragment : Fragment() {
     }
 
     private fun navToDetails(book: AvailableBook) {
-        println("navToDetails")
         val fragment = BookDetailsFragment.newInstance(book)
         parentFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainer, fragment)

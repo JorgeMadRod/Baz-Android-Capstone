@@ -45,8 +45,6 @@ class BookDetailsFragment : Fragment(), TabLayout.OnTabSelectedListener {
         binding.tabLayout.addOnTabSelectedListener(this)
         viewModel.getOrderBook(book.book)
         viewModel.getTicker(book.book)
-
-
     }
 
     private fun setupObservers() {
@@ -54,7 +52,6 @@ class BookDetailsFragment : Fragment(), TabLayout.OnTabSelectedListener {
             response?.let {
                 loadValues(it)
             }
-
         }
 
         viewModel.orderBook.observe(viewLifecycleOwner) { response ->

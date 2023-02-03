@@ -15,12 +15,12 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="12dp">
+        android:padding="@dimen/padding_12">
 
         <ImageView
             android:id="@+id/imgCoin"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/default_image_size"
+            android:layout_height="@dimen/default_image_size"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -29,13 +29,13 @@
             android:id="@+id/txtName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:textSize="15sp"
+            android:layout_marginStart="@dimen/margin_10"
+            android:textSize="@dimen/text_size_15"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imgCoin"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Bitcoin" />
+            tools:text="@string/bitcoin" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.google.android.material.card.MaterialCardView>
