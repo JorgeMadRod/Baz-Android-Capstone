@@ -8,11 +8,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.tabs.TabLayout
-import com.jmadrigal.capstone.databinding.FragmentBookDetailsBinding
-import com.jmadrigal.capstone.features.book.viewmodel.BookDetailViewModel
 import com.jmadrigal.capstone.core.models.AvailableBook
 import com.jmadrigal.capstone.core.models.Book
+import com.jmadrigal.capstone.core.utils.Extensions.convertToCurrency
+import com.jmadrigal.capstone.databinding.FragmentBookDetailsBinding
 import com.jmadrigal.capstone.features.book.view.adapter.AsksAdapter
+import com.jmadrigal.capstone.features.book.viewmodel.BookDetailViewModel
 
 class BookDetailsFragment : Fragment(), TabLayout.OnTabSelectedListener {
 
@@ -56,15 +57,16 @@ class BookDetailsFragment : Fragment(), TabLayout.OnTabSelectedListener {
 
         viewModel.orderBook.observe(viewLifecycleOwner) { response ->
             response?.let {
-                setupRecycler() }
+                setupRecycler()
+            }
         }
     }
 
     private fun loadValues(book: Book) {
         binding.txtTitle.text = book.book.uppercase()
-        binding.txtPrice.text = book.last
-        binding.txtHighPrice.text = book.high
-        binding.txtLowPrice.text = book.low
+        binding.txtPrice.text = book.last.convertToCurrency()
+        binding.txtHighPrice.text = book.high.convertToCurrency()
+        binding.txtLowPrice.text = book.low.convertToCurrency()
     }
 
     private fun setupRecycler() {

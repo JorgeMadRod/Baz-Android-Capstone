@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.jmadrigal.capstone.databinding.RowTabsBinding
 import com.jmadrigal.capstone.core.models.Ask
+import com.jmadrigal.capstone.core.utils.Extensions.convertToCurrency
 
 class AsksAdapter : ListAdapter<Ask, AsksAdapter.ViewHolder>(DiffUtilsCallback()) {
 
@@ -18,9 +19,9 @@ class AsksAdapter : ListAdapter<Ask, AsksAdapter.ViewHolder>(DiffUtilsCallback()
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder) {
             with(getItem(position)) {
-                binding.txtAmount.text = this.amount
+                binding.txtAmount.text = this.amount.convertToCurrency()
                 binding.txtBook.text = this.book
-                binding.txtPrice.text = this.price
+                binding.txtPrice.text = this.price.convertToCurrency()
             }
         }
     }
