@@ -1,8 +1,10 @@
 <resources>
-    <string name="app_name">Baz-Android-Capstone</string>
+    <string name="app_name">Capstone</string>
     <string name="price">Precio</string>
     <string name="coins_available">Monedas disponibles</string>
     <string name="asks">Asks</string>
     <string name="bids">Bids</string>
     <string name="bitcoin">Bitcoin</string>
+    <string name="mock_title">Moneda</string>
+    <string name="mock_price">$1,000</string>
 </resources>

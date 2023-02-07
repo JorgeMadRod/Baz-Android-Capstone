@@ -63,7 +63,8 @@ class BookDetailsFragment : Fragment(), TabLayout.OnTabSelectedListener {
     }
 
     private fun loadValues(book: Book) {
-        binding.txtTitle.text = book.book.uppercase()
+        binding.txtTitle.text = book.book.uppercase().split("_")[0]
+        binding.lblPrice.text = "Precio ${book.book.uppercase().split("_")[1]}"
         binding.txtPrice.text = book.last.convertToCurrency()
         binding.txtHighPrice.text = book.high.convertToCurrency()
         binding.txtLowPrice.text = book.low.convertToCurrency()
