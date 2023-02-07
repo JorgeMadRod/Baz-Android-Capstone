@@ -2,6 +2,7 @@ package com.jmadrigal.capstone.di
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.jmadrigal.capstone.BuildConfig
 import com.jmadrigal.capstone.core.network.BitsoService
 import com.jmadrigal.capstone.core.utils.Constants.BASE_URL
 import com.jmadrigal.capstone.core.utils.Constants.DEFAULT_TIME_OUT
@@ -30,10 +31,20 @@ object AppModule {
     @Singleton
     @Provides
     fun provideOkHttpClient(): OkHttpClient {
-        val loggingInterceptor = HttpLoggingInterceptor()
-        loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
         val client = OkHttpClient().newBuilder()
-            .addInterceptor(loggingInterceptor)
+            .addInterceptor { chain ->
+                val newRequest = chain.request().newBuilder()
+                    .addHeader("User-Agent", "Capstone-Android")
+                    .addHeader("Accept-Language", "es")
+                    .build()
+                chain.proceed(newRequest)
+            }
+            .addInterceptor(HttpLoggingInterceptor().apply {
+                setLevel(
+                    if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY
+                    else HttpLoggingInterceptor.Level.NONE
+                )
+            })
             .readTimeout(DEFAULT_TIME_OUT, TimeUnit.MINUTES)
             .writeTimeout(DEFAULT_TIME_OUT, TimeUnit.MINUTES)
             .connectTimeout(DEFAULT_TIME_OUT, TimeUnit.MINUTES)
