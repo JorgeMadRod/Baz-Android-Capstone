@@ -16,22 +16,23 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
         addFragment(AvailableBooksFragment())
 
-       /* onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                val fragment = supportFragmentManager.findFragmentById(R.id.fragmentContainer)
-                when (fragment) {
-                    null, is AvailableBooksFragment -> finish()
-                    else -> supportFragmentManager.popBackStack()
-                }
+        /* onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+             override fun handleOnBackPressed() {
+                 val fragment = supportFragmentManager.findFragmentById(R.id.fragmentContainer)
+                 when (fragment) {
+                     null, is AvailableBooksFragment -> finish()
+                     else -> supportFragmentManager.popBackStack()
+                 }
 
-                if (isEnabled) {
-                    isEnabled = false
-                    onBackPressedDispatcher.onBackPressed()
-                }
-            }
-        })*/
+                 if (isEnabled) {
+                     isEnabled = false
+                     onBackPressedDispatcher.onBackPressed()
+                 }
+             }
+         })*/
     }
 
     private fun addFragment(fragment: Fragment) {
@@ -43,9 +44,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         val fragment = supportFragmentManager.findFragmentById(R.id.fragmentContainer)
-        if (fragment is AvailableBooksFragment){
+        if (fragment is AvailableBooksFragment) {
             finish()
-        } else{
+        } else {
             super.onBackPressed()
         }
     }

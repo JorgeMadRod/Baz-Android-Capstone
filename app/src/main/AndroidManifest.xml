@@ -30,6 +30,10 @@
             android:name=".features.books.view.activity.MainActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
+
+        <meta-data
+            android:name="android.app.searchable"
+            android:resource="@xml/searchable" />
     </application>
 
 </manifest>
