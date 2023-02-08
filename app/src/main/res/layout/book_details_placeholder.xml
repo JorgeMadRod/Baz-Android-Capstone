@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <View
+                android:id="@+id/phTitle"
+                android:layout_width="200dp"
+                android:layout_height="30dp"
+                android:background="@color/background_placeholder"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/phPrice"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_20"
+                android:background="@color/background_placeholder"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/phTitle" />
+
+            <View
+                android:id="@+id/phlblPrice"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="@dimen/margin_10"
+                android:background="@color/background_placeholder"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/phPrice" />
+
+            <TextView
+                android:id="@+id/txtHighPrice"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:background="@color/background_placeholder"
+                app:drawableEndCompat="@drawable/ic_arrow_up"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/phPrice" />
+
+            <TextView
+                android:id="@+id/txtLowPrice"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:background="@color/background_placeholder"
+                app:drawableEndCompat="@drawable/ic_arrow_down"
+                app:layout_constraintBottom_toBottomOf="@+id/phlblPrice"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtHighPrice" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

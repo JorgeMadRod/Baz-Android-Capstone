@@ -19,12 +19,12 @@ import dagger.hilt.android.AndroidEntryPoint
 class AvailableBooksFragment : Fragment() {
 
     private var _binding: FragmentAvailableBooksBinding? = null
-    private val binding get() = _binding
+    private val binding get() = _binding!!
     private val viewModel: BooksViewModel by activityViewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = FragmentAvailableBooksBinding.inflate(inflater, container, false)
-        binding?.let {
+        _binding?.let {
             return it.root
         }
         return super.onCreateView(inflater, container, savedInstanceState)
@@ -34,6 +34,7 @@ class AvailableBooksFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupObservers()
+        binding.shimmer.startShimmer()
         viewModel.getBooks()
     }
 
@@ -46,11 +47,13 @@ class AvailableBooksFragment : Fragment() {
     private fun setupRecycler(bookList: List<AvailableBook>) {
         val availableBooksAdapter = AvailableBooksAdapter { onBookSelected(it) }
         availableBooksAdapter.submitList(bookList)
-        binding!!.recycler.apply {
+        binding.recycler.apply {
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(true)
             adapter = availableBooksAdapter
         }
+        binding.shimmer.stopShimmer()
+        binding.shimmer.visibility = View.GONE
     }
 
     private fun onBookSelected(book: AvailableBook) {
@@ -63,6 +66,16 @@ class AvailableBooksFragment : Fragment() {
             .replace(R.id.fragmentContainer, fragment)
             .addToBackStack(fragment::class.java.canonicalName)
             .commitAllowingStateLoss()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        _binding?.shimmer?.startShimmer()
+    }
+
+    override fun onPause() {
+        _binding?.shimmer?.stopShimmer()
+        super.onPause()
     }
 
     override fun onDestroy() {

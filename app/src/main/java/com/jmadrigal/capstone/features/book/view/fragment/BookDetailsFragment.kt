@@ -13,7 +13,7 @@ import com.jmadrigal.capstone.core.models.Book
 import com.jmadrigal.capstone.databinding.FragmentBookDetailsBinding
 import com.jmadrigal.capstone.features.book.view.adapter.AsksAdapter
 import com.jmadrigal.capstone.features.book.viewmodel.BookDetailViewModel
-import com.jmadrigal.capstone.utils.Extensions.convertToCurrency
+import com.jmadrigal.capstone.utils.convertToCurrency
 
 class BookDetailsFragment : Fragment(), TabLayout.OnTabSelectedListener {
 
@@ -43,6 +43,7 @@ class BookDetailsFragment : Fragment(), TabLayout.OnTabSelectedListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupObservers()
+        binding.shimmer.startShimmer()
         binding.tabLayout.addOnTabSelectedListener(this)
         viewModel.getOrderBook(book.book)
         viewModel.getTicker(book.book)
@@ -76,6 +77,8 @@ class BookDetailsFragment : Fragment(), TabLayout.OnTabSelectedListener {
             setHasFixedSize(true)
         }
         onTabSelected(binding.tabLayout.getTabAt(0))
+        binding.shimmer.stopShimmer()
+        binding.shimmer.visibility = View.GONE
     }
 
     override fun onTabSelected(tab: TabLayout.Tab?) {
@@ -102,6 +105,17 @@ class BookDetailsFragment : Fragment(), TabLayout.OnTabSelectedListener {
     override fun onTabReselected(tab: TabLayout.Tab?) {
 
     }
+
+    override fun onResume() {
+        super.onResume()
+        _binding?.shimmer?.startShimmer()
+    }
+
+    override fun onPause() {
+        _binding?.shimmer?.stopShimmer()
+        super.onPause()
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()

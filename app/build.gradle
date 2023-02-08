@@ -72,6 +72,8 @@ dependencies {
     // Mockk
     testImplementation "io.mockk:mockk:1.13.4"
     androidTestImplementation "io.mockk:mockk-android:1.13.4"
+    // Shimmer
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
 
 
 }

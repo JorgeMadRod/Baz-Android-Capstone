@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.jmadrigal.capstone.databinding.RowTabsBinding
 import com.jmadrigal.capstone.core.models.Ask
-import com.jmadrigal.capstone.utils.Extensions.convertToCurrency
+import com.jmadrigal.capstone.utils.convertToCurrency
 
 class AsksAdapter : ListAdapter<Ask, AsksAdapter.ViewHolder>(DiffUtilsCallback()) {
 
