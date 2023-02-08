@@ -1,4 +1,5 @@
-package com.jmadrigal.capstone.core.utils
+package com.jmadrigal.capstone.utils
+
 
 import java.text.NumberFormat
 import java.util.*

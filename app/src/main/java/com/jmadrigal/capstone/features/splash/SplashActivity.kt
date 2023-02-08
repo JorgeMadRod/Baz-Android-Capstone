@@ -6,14 +6,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.jmadrigal.capstone.databinding.ActivitySplashBinding
 import com.jmadrigal.capstone.features.books.view.activity.MainActivity
+import com.jmadrigal.capstone.utils.Constants.SPLASH_DELAY
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class SplashActivity  : AppCompatActivity(){
+class SplashActivity : AppCompatActivity() {
 
-    private val binding : ActivitySplashBinding by lazy { ActivitySplashBinding.inflate(layoutInflater) }
+    private val binding: ActivitySplashBinding by lazy { ActivitySplashBinding.inflate(layoutInflater) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,9 +22,9 @@ class SplashActivity  : AppCompatActivity(){
         navToBooks()
     }
 
-    private fun navToBooks(){
+    private fun navToBooks() {
         lifecycleScope.launch {
-            delay(2000)
+            delay(SPLASH_DELAY)
             startActivity(Intent(this@SplashActivity, MainActivity::class.java))
             finish()
         }

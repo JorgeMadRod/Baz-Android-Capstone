@@ -4,8 +4,8 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.jmadrigal.capstone.BuildConfig
 import com.jmadrigal.capstone.core.network.BitsoService
-import com.jmadrigal.capstone.core.utils.Constants.BASE_URL
-import com.jmadrigal.capstone.core.utils.Constants.DEFAULT_TIME_OUT
+import com.jmadrigal.capstone.utils.Constants.BASE_URL
+import com.jmadrigal.capstone.utils.Constants.DEFAULT_TIME_OUT
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

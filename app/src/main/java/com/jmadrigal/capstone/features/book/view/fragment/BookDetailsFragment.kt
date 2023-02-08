@@ -10,10 +10,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.tabs.TabLayout
 import com.jmadrigal.capstone.core.models.AvailableBook
 import com.jmadrigal.capstone.core.models.Book
-import com.jmadrigal.capstone.core.utils.Extensions.convertToCurrency
 import com.jmadrigal.capstone.databinding.FragmentBookDetailsBinding
 import com.jmadrigal.capstone.features.book.view.adapter.AsksAdapter
 import com.jmadrigal.capstone.features.book.viewmodel.BookDetailViewModel
+import com.jmadrigal.capstone.utils.Extensions.convertToCurrency
 
 class BookDetailsFragment : Fragment(), TabLayout.OnTabSelectedListener {
 
