@@ -9,4 +9,5 @@
     <string name="mock_price">$1,000</string>
     <string name="search">Buscar</string>
     <string name="search_hint">Buscar una cripto</string>
+    <string name="info_no_available">Información no disponible</string>
 </resources>

@@ -10,10 +10,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.jmadrigal.capstone.R
 import com.jmadrigal.capstone.core.models.AvailableBook
 import com.jmadrigal.capstone.databinding.RowAvailableBooksBinding
+import com.jmadrigal.capstone.utils.OnItemSelected
 
-class AvailableBooksAdapter(private var bookSelected: (AvailableBook) -> Unit) :
+// Function type
+
+class AvailableBooksAdapter(private var bookSelected: OnItemSelected<AvailableBook>) :
     ListAdapter<AvailableBook, AvailableBooksAdapter.ViewHolder>(DiffUtilsCallBack()), Filterable {
 
     private var originalList: List<AvailableBook> = currentList.toList()
@@ -29,8 +33,9 @@ class AvailableBooksAdapter(private var bookSelected: (AvailableBook) -> Unit) :
                 val bookValues = this.book.uppercase().split("_")
                 binding.txtName.text = "${bookValues[0]} \u25b8 ${bookValues[1]}"
                 Glide.with(binding.root.context)
-                    .load("https://cryptoicons.org/api/icon/${bookValues[0]}/200")
-                    .error("https://coinicons-api.vercel.app/api/icon/${this.book.split("_")[0]}")
+                    //.load("https://cryptoicons.org/api/icon/${bookValues[0]}/200")
+                    .load("https://coinicons-api.vercel.app/api/icon/${this.book.split("_")[0]}")
+                    .error(R.mipmap.ic_launcher_round)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .priority(Priority.HIGH)
                     .into(binding.imgCoin)

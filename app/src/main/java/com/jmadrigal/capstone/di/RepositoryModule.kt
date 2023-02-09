@@ -1,5 +1,8 @@
 package com.jmadrigal.capstone.di
 
+import com.jmadrigal.capstone.core.database.AvailableBookDao
+import com.jmadrigal.capstone.core.database.BookDao
+import com.jmadrigal.capstone.core.database.Converters
 import com.jmadrigal.capstone.core.network.BitsoService
 import com.jmadrigal.capstone.features.book.repository.BookRepository
 import com.jmadrigal.capstone.features.books.repository.BooksRepository
@@ -15,11 +18,16 @@ object RepositoryModule {
 
     @Singleton
     @Provides
-    fun providesBooksRepository(bitsoService: BitsoService) =
-        BooksRepository(bitsoService)
+    fun providesTypeConverterForArrays(): Converters =
+        Converters()
 
     @Singleton
     @Provides
-    fun providesBookRepository(bitsoService: BitsoService) =
-        BookRepository(bitsoService)
+    fun providesBooksRepository(bitsoService: BitsoService, dao: AvailableBookDao) =
+        BooksRepository(bitsoService, dao)
+
+    @Singleton
+    @Provides
+    fun providesBookRepository(bitsoService: BitsoService, dao: BookDao) =
+        BookRepository(bitsoService, dao)
 }

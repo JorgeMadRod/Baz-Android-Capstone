@@ -16,7 +16,4 @@ data class OrderBook(
     @SerializedName("asks")
     @Expose
     var asks: List<Ask>
-
-
-
 )

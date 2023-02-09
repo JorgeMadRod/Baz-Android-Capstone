@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.tabs.TabLayout
+import com.jmadrigal.capstone.R
 import com.jmadrigal.capstone.core.models.AvailableBook
 import com.jmadrigal.capstone.core.models.Book
 import com.jmadrigal.capstone.databinding.FragmentBookDetailsBinding
@@ -64,11 +66,17 @@ class BookDetailsFragment : Fragment(), TabLayout.OnTabSelectedListener {
     }
 
     private fun loadValues(book: Book) {
-        binding.txtTitle.text = book.book.uppercase().split("_")[0]
-        binding.lblPrice.text = "Precio ${book.book.uppercase().split("_")[1]}"
-        binding.txtPrice.text = book.last.convertToCurrency()
-        binding.txtHighPrice.text = book.high.convertToCurrency()
-        binding.txtLowPrice.text = book.low.convertToCurrency()
+        if (book.book.isEmpty()){
+            Toast.makeText(requireContext(), getString(R.string.info_no_available), Toast.LENGTH_SHORT).show()
+            parentFragmentManager.popBackStack()
+        } else {
+            binding.txtTitle.text = book.book.uppercase().split("_")[0]
+            binding.lblPrice.text = "Precio ${book.book.uppercase().split("_")[1]}"
+            binding.txtPrice.text = book.last.convertToCurrency()
+            binding.txtHighPrice.text = book.high.convertToCurrency()
+            binding.txtLowPrice.text = book.low.convertToCurrency()
+        }
+
     }
 
     private fun setupRecycler() {
