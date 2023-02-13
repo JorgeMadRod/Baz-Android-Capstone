@@ -17,6 +17,13 @@ class BooksViewModel @Inject constructor(
     private val _books = MutableLiveData<List<AvailableBook>>()
     val books: LiveData<List<AvailableBook>> = _books
 
+    fun getRxBooks() {
+        viewModelScope.launch {
+            val result = repository.getRxBooks()
+            _books.postValue(result)
+        }
+    }
+
 
     fun getBooks() {
         viewModelScope.launch {

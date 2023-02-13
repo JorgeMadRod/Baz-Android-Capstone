@@ -12,10 +12,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.jmadrigal.capstone.R
 import com.jmadrigal.capstone.core.models.AvailableBook
 import com.jmadrigal.capstone.databinding.FragmentAvailableBooksBinding
-import com.jmadrigal.capstone.features.book.view.fragment.BookDetailsFragment
 import com.jmadrigal.capstone.features.books.view.adapter.AvailableBooksAdapter
 import com.jmadrigal.capstone.features.books.viewmodel.BooksViewModel
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class AvailableBooksFragment : Fragment() {
@@ -44,7 +44,8 @@ class AvailableBooksFragment : Fragment() {
         setupListeners()
         setupObservers()
         binding.shimmer.startShimmer()
-        viewModel.getBooks()
+        //viewModel.getBooks()
+        viewModel.getRxBooks()
     }
 
     private fun setupListeners() {

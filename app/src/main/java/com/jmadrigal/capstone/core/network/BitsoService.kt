@@ -3,11 +3,14 @@ package com.jmadrigal.capstone.core.network
 import com.jmadrigal.capstone.core.models.AvailableBooksResponse
 import com.jmadrigal.capstone.core.models.OrderBookResponse
 import com.jmadrigal.capstone.core.models.TickerResponse
-import retrofit2.Response
+import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface BitsoService {
+
+    @GET("available_books")
+    fun getRxBooks(): Observable<AvailableBooksResponse>
 
     @GET("available_books")
     suspend fun getBooks(): AvailableBooksResponse
