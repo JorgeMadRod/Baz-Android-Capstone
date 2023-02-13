@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.tabs.TabLayout
 import com.jmadrigal.capstone.R
@@ -26,13 +27,13 @@ class BookDetailsFragment : Fragment(), TabLayout.OnTabSelectedListener {
 
     private val askAdapter: AsksAdapter by lazy { AsksAdapter() }
 
-    companion object {
+    /*companion object {
         fun newInstance(book: AvailableBook): BookDetailsFragment {
             val fragment = BookDetailsFragment()
             fragment.book = book
             return fragment
         }
-    }
+    }*/
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = FragmentBookDetailsBinding.inflate(inflater, container, false)
@@ -47,6 +48,10 @@ class BookDetailsFragment : Fragment(), TabLayout.OnTabSelectedListener {
         setupObservers()
         binding.shimmer.startShimmer()
         binding.tabLayout.addOnTabSelectedListener(this)
+
+        val safeArgs: BookDetailsFragmentArgs by navArgs()
+        book = safeArgs.book
+
         viewModel.getOrderBook(book.book)
         viewModel.getTicker(book.book)
     }
@@ -66,7 +71,7 @@ class BookDetailsFragment : Fragment(), TabLayout.OnTabSelectedListener {
     }
 
     private fun loadValues(book: Book) {
-        if (book.book.isEmpty()){
+        if (book.book.isEmpty()) {
             Toast.makeText(requireContext(), getString(R.string.info_no_available), Toast.LENGTH_SHORT).show()
             parentFragmentManager.popBackStack()
         } else {

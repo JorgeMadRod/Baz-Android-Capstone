@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/capstone_navigation"
+    app:startDestination="@id/availableBooksFragment">
+
+    <fragment
+        android:id="@+id/availableBooksFragment"
+        android:name="com.jmadrigal.capstone.features.books.view.fragment.AvailableBooksFragment"
+        android:label="AvailableBooksFragment"
+        tools:layout="@layout/fragment_available_books">
+
+        <action
+            android:id="@+id/actionNavToDetail"
+            app:destination="@+id/bookDetailsFragment" >
+
+            <argument
+                android:name="book"
+                app:argType="com.jmadrigal.capstone.core.models.AvailableBook"
+                app:nullable="false" />
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/bookDetailsFragment"
+        android:name="com.jmadrigal.capstone.features.book.view.fragment.BookDetailsFragment"
+        android:label="BookDetailsFragment"
+        tools:layout="@layout/fragment_book_details">
+        <argument
+            android:name="book"
+            app:argType="com.jmadrigal.capstone.core.models.AvailableBook"
+            app:nullable="false" />
+    </fragment>
+</navigation>

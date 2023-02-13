@@ -7,6 +7,7 @@ import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jmadrigal.capstone.R
 import com.jmadrigal.capstone.core.models.AvailableBook
@@ -75,11 +76,8 @@ class AvailableBooksFragment : Fragment() {
     }
 
     private fun navToDetails(book: AvailableBook) {
-        val fragment = BookDetailsFragment.newInstance(book)
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.fragmentContainer, fragment)
-            .addToBackStack(fragment::class.java.canonicalName)
-            .commitAllowingStateLoss()
+        val action = AvailableBooksFragmentDirections.actionNavToDetail(book)
+        findNavController().navigate(action)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

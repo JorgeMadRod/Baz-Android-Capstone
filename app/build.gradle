@@ -2,6 +2,8 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'dagger.hilt.android.plugin'
+    id 'androidx.navigation.safeargs'
+    id 'kotlin-parcelize'
     id 'kotlin-kapt'
 }
 
@@ -50,6 +52,10 @@ dependencies {
     implementation 'androidx.activity:activity-ktx:1.6.1'
     // ViewModel
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
+    // Navigation component
+    implementation("androidx.navigation:navigation-fragment-ktx:2.5.3")
+    implementation("androidx.navigation:navigation-ui-ktx:2.5.3")
+    implementation("androidx.navigation:navigation-dynamic-features-fragment:2.5.3")
     // GSON
     implementation 'com.google.code.gson:gson:2.10.1'
     // OkHttp
@@ -65,7 +71,6 @@ dependencies {
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.14.2'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
-
     // Mockito
     testImplementation "org.mockito:mockito-core:4.5.1"
     testImplementation "org.mockito.kotlin:mockito-kotlin:4.1.0"

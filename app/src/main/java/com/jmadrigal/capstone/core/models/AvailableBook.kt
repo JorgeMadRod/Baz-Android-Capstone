@@ -1,8 +1,11 @@
 package com.jmadrigal.capstone.core.models
 
+import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class AvailableBook(
     @SerializedName("book")
     @Expose
@@ -25,4 +28,4 @@ data class AvailableBook(
     @SerializedName("maximum_value")
     @Expose
     var maximumValue: String
-)
+) : Parcelable
