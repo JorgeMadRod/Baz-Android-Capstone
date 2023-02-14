@@ -42,7 +42,7 @@ object AppModule {
         val client = OkHttpClient().newBuilder()
             .addInterceptor { chain ->
                 val newRequest = chain.request().newBuilder()
-                    //.addHeader("User-Agent", "Capstone-Android/1.0")
+                    .addHeader("User-Agent", "Capstone-Android/1.0")
                     .addHeader("Accept-Language", "es")
                     .build()
                 chain.proceed(newRequest)
