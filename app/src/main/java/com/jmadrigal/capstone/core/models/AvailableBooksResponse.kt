@@ -9,5 +9,5 @@ data class AvailableBooksResponse(
     var success: Boolean,
     @SerializedName("payload")
     @Expose
-    var payload: ArrayList<AvailableBook>
+    var payload: List<AvailableBook>
 )

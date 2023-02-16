@@ -50,12 +50,16 @@ class AvailableBooksFragment : Fragment() {
 
     private fun setupListeners() {
         binding.searchChip.setOnCloseIconClickListener {
-            handleChip(null)
-            availableBooksAdapter.filter.filter("")
+            viewModel.search(null)
         }
     }
 
     private fun setupObservers() {
+        viewModel.chip.observe(viewLifecycleOwner){
+            binding.searchChip.visibility = if (it == null) View.GONE else View.VISIBLE
+            binding.searchChip.text = it
+        }
+
         viewModel.books.observe(viewLifecycleOwner) {
             setupRecycler(it)
         }
@@ -94,8 +98,8 @@ class AvailableBooksFragment : Fragment() {
                 if (!searchView.isIconified) {
                     searchView.isIconified = true
                 }
-                availableBooksAdapter.filter.filter(query)
-                handleChip(query)
+                //availableBooksAdapter.filter.filter(query)
+                viewModel.search(query)
                 searchItem.collapseActionView()
                 return false
             }
@@ -107,10 +111,6 @@ class AvailableBooksFragment : Fragment() {
         return super.onCreateOptionsMenu(menu, inflater)
     }
 
-    private fun handleChip(query: String?) {
-        binding.searchChip.visibility = if (query == null) View.GONE else View.VISIBLE
-        binding.searchChip.text = query
-    }
 
     override fun onResume() {
         super.onResume()

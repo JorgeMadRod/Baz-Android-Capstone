@@ -14,4 +14,7 @@ interface AvailableBookDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveAvailableBooks(availableBooks: List<AvailableBookModel>)
+
+    @Query("SELECT * FROM availableBook WHERE book LIKE :book")
+    suspend fun searchBook(book: String): List<AvailableBookModel>
 }

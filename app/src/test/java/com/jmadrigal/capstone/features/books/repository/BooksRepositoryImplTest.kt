@@ -12,19 +12,19 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 
-internal class BooksRepositoryTest {
+internal class BooksRepositoryImplTest {
 
     @RelaxedMockK
     lateinit var service: BitsoService
 
     @RelaxedMockK
     lateinit var dao : AvailableBookDao
-    lateinit var repository: BooksRepository
+    lateinit var repository: BooksRepositoryImpl
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
-        repository = BooksRepository(service, dao)
+        repository = BooksRepositoryImpl(service, dao)
     }
 
     @Test

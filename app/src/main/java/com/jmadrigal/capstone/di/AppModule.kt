@@ -38,7 +38,18 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideOkHttpClient(): OkHttpClient {
+    fun providesInterceptor() =
+         HttpLoggingInterceptor().apply {
+            setLevel(
+                if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY
+                else HttpLoggingInterceptor.Level.NONE
+            )
+        }
+
+
+    @Singleton
+    @Provides
+    fun provideOkHttpClient(interceptor : HttpLoggingInterceptor): OkHttpClient {
         val client = OkHttpClient().newBuilder()
             .addInterceptor { chain ->
                 val newRequest = chain.request().newBuilder()
@@ -47,12 +58,7 @@ object AppModule {
                     .build()
                 chain.proceed(newRequest)
             }
-            .addInterceptor(HttpLoggingInterceptor().apply {
-                setLevel(
-                    if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY
-                    else HttpLoggingInterceptor.Level.NONE
-                )
-            })
+            .addInterceptor(interceptor)
             .readTimeout(DEFAULT_TIME_OUT, TimeUnit.MINUTES)
             .writeTimeout(DEFAULT_TIME_OUT, TimeUnit.MINUTES)
             .connectTimeout(DEFAULT_TIME_OUT, TimeUnit.MINUTES)
