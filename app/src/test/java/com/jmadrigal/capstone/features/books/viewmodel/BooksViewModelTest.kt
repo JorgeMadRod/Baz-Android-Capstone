@@ -5,7 +5,6 @@ import com.jmadrigal.capstone.core.database.AvailableBookDao
 import com.jmadrigal.capstone.core.database.dto.AvailableBookModel
 import com.jmadrigal.capstone.core.models.AvailableBook
 import com.jmadrigal.capstone.core.models.AvailableBooksResponse
-import com.jmadrigal.capstone.core.models.Book
 import com.jmadrigal.capstone.core.network.BitsoService
 import com.jmadrigal.capstone.features.books.repository.BooksRepositoryImpl
 import com.jmadrigal.capstone.getOrAwaitValue
@@ -57,18 +56,27 @@ class BooksViewModelTest {
         val result = viewModel.books.getOrAwaitValue().find {
             it.book == "A" && it.minimumAmount == "1" && it.maximumAmount == "1" && it.minimumPrice == "1" && it.maximumPrice == "2" && it.minimumValue == "2" && it.maximumValue == "2"
         }
+        //Then
         Assert.assertEquals(result, listOfBooks[0])
 
     }
 
-     @Test
-     fun search() {
-         //Given
-         val response = Book("A", "1", "1", "1", "", "2", "2", "2", "")
-         //When
-
-         //Then
-     }
+    @Test
+    fun search() {
+        val wordToSearch = "A"
+        // Given
+        val response = AvailableBooksResponse(true, listOfBooks)
+        coEvery { service.getBooks() } returns response
+        coEvery { dao.getAvailableBook() } returns listOfBooks.map { AvailableBookModel.fromAvailableBook(it) }
+        // When
+        viewModel.getBooks()
+        val resultOfSearch = viewModel.books.getOrAwaitValue().find {
+            it.book == wordToSearch
+        }
+        viewModel.search(wordToSearch)
+        // Then
+        Assert.assertEquals(resultOfSearch, listOfBooks[0])
+    }
 
     @After
     fun tearDown() {
