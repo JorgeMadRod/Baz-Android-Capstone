@@ -7,5 +7,13 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="default_background">#F0F1F1</color>
+    <color name="item_card_background">#FBFDFE</color>
+    <color name="default_background">#F1F4FE</color>
+    <color name="splash_background">#fff</color>
+    <color name="title_text_color">#000000</color>
+    <color name="primary_text_color">#494949</color>
+    <color name="secondary_text_color">#888888</color>
+    <color name="background_placeholder">#dddddd</color>
+    <color name="toolbar_color">#fff</color>
+    <color name="gray">#EAEAEA</color>
 </resources>
