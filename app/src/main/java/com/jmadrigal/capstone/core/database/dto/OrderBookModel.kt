@@ -2,7 +2,7 @@ package com.jmadrigal.capstone.core.database.dto
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.jmadrigal.capstone.core.database.Converters
+import com.jmadrigal.capstone.core.models.Ask
 import com.jmadrigal.capstone.core.models.OrderBook
 
 @Entity(tableName = "orderBook")
@@ -11,8 +11,8 @@ data class OrderBookModel(
     var book: String,
     var updated_at: String,
     var sequence: String,
-    var bids: String,
-    var asks: String
+    var bids: List<Ask>?,
+    var asks: List<Ask>?
 ) {
     companion object {
         fun fromOrderBook(book: String, orderBook: OrderBook): OrderBookModel {
@@ -20,8 +20,8 @@ data class OrderBookModel(
                 book = book,
                 updated_at = orderBook.updated_at,
                 sequence = orderBook.sequence,
-                bids = Converters().asksFromArrayList(orderBook.bids),
-                asks = Converters().asksFromArrayList(orderBook.asks)
+                bids = orderBook.bids,
+                asks = orderBook.asks
             )
         }
     }
@@ -30,8 +30,8 @@ data class OrderBookModel(
         return OrderBook(
             updated_at = this.updated_at,
             sequence = this.sequence,
-            bids = Converters().asksFromString(this.bids),
-            asks =  Converters().asksFromString(this.asks)
+            bids = this.bids ?: listOf(),
+            asks = this.asks ?: listOf()
         )
     }
 }

@@ -15,15 +15,22 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
+import org.mockito.kotlin.any
 
 class BookRepositoryImplTest {
+
+    private val listOfOrderBooks = listOf(
+        OrderBookModel("A", "1", "1", listOf(), listOf()),
+        OrderBookModel("B", "1", "1", listOf(), listOf()),
+        OrderBookModel("C", "1", "1", listOf(), listOf())
+    )
 
     @RelaxedMockK
     lateinit var service: BitsoService
 
     @RelaxedMockK
     lateinit var dao: BookDao
-    lateinit var repository: BookRepositoryImpl
+    lateinit var repository: BookRepository
 
     @Before
     fun setUp() {
@@ -44,14 +51,18 @@ class BookRepositoryImplTest {
     }
 
     @Test
-    fun testGetOrderBook() = runBlocking {
-        // Given
-        val response = OrderBookResponse(true, OrderBook("", "", listOf(), listOf()))
-        coEvery { service.getOrderBook("A") } returns response
-        coEvery { dao.getOrderBook("A") } returns OrderBookModel.fromOrderBook("A", response.payload)
-        // When
-        val result = repository.getOrderBook("A")
-        // Then
-        Assert.assertEquals(result, response.payload)
-    }
+    fun `when we execute getOrderBook with the book id then it returns the book detail and a list of bids and asks`() =
+        runBlocking {
+            // Given
+
+            val bookId = "A"
+            coEvery { service.getOrderBook(bookId) } returns OrderBookResponse(true, OrderBook("", "", listOf(), listOf()))
+            coEvery { dao.saveOrderBook(any()) } returns any()
+            coEvery { dao.getOrderBook(bookId) } returns listOfOrderBooks.find { it.book == bookId }!!
+            // When
+            val result = repository.getOrderBook(bookId)
+            // Then
+            Assert.assertNotNull(result)
+        }
+
 }

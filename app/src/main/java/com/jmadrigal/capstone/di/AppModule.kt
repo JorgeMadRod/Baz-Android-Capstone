@@ -5,10 +5,7 @@ import androidx.room.Room
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.jmadrigal.capstone.BuildConfig
-import com.jmadrigal.capstone.core.database.AvailableBookDao
-import com.jmadrigal.capstone.core.database.BookDao
-import com.jmadrigal.capstone.core.database.CapstoneDatabase
-import com.jmadrigal.capstone.core.database.Converters
+import com.jmadrigal.capstone.core.database.*
 import com.jmadrigal.capstone.core.network.BitsoService
 import com.jmadrigal.capstone.utils.Constants.BASE_URL
 import com.jmadrigal.capstone.utils.Constants.DEFAULT_TIME_OUT
@@ -82,6 +79,7 @@ object AppModule {
         retrofit
             .build()
             .create(BitsoService::class.java)
+
 
     @Singleton
     @Provides

@@ -21,6 +21,7 @@ import org.junit.*
 @OptIn(ExperimentalCoroutinesApi::class)
 class BooksViewModelTest {
 
+    // Para los hilos del viewmodel
     @get:Rule
     val rule = InstantTaskExecutorRule()
 
@@ -62,20 +63,29 @@ class BooksViewModelTest {
     }
 
     @Test
-    fun search() {
+    fun `success test search function in viewModel`() {
         val wordToSearch = "A"
         // Given
-        val response = AvailableBooksResponse(true, listOfBooks)
-        coEvery { service.getBooks() } returns response
-        coEvery { dao.getAvailableBook() } returns listOfBooks.map { AvailableBookModel.fromAvailableBook(it) }
+        val list = listOfBooks.map { AvailableBookModel.fromAvailableBook(it) }
+        coEvery { dao.searchBook("%$wordToSearch%") } returns list.filter { it.book.contains(wordToSearch) }
         // When
-        viewModel.getBooks()
-        val resultOfSearch = viewModel.books.getOrAwaitValue().find {
-            it.book == wordToSearch
-        }
         viewModel.search(wordToSearch)
+        val resultOfSearch = viewModel.books.getOrAwaitValue()
         // Then
-        Assert.assertEquals(resultOfSearch, listOfBooks[0])
+        Assert.assertTrue(resultOfSearch.isNotEmpty())
+    }
+
+    @Test
+    fun `failure test search function in viewModel`() {
+        val wordToSearch = "ABA"
+        // Given
+        val list = listOfBooks.map { AvailableBookModel.fromAvailableBook(it) }
+        coEvery { dao.searchBook("%$wordToSearch%") } returns list.filter { it.book.contains(wordToSearch) }
+        // When
+        viewModel.search(wordToSearch)
+        val resultOfSearch = viewModel.books.getOrAwaitValue()
+        // Then
+        Assert.assertTrue(resultOfSearch.isEmpty())
     }
 
     @After
