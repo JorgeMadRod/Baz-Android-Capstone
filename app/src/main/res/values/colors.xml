@@ -15,4 +15,5 @@
     <color name="secondary_text_color">#888888</color>
     <color name="background_placeholder">#dddddd</color>
     <color name="toolbar_color">#fff</color>
+    <color name="gray">#EAEAEA</color>
 </resources>

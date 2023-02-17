@@ -8,12 +8,12 @@
     <fragment
         android:id="@+id/availableBooksFragment"
         android:name="com.jmadrigal.capstone.features.books.view.fragment.AvailableBooksFragment"
-        android:label="AvailableBooksFragment"
+        android:label="Disponibles"
         tools:layout="@layout/fragment_available_books">
 
         <action
             android:id="@+id/actionNavToDetail"
-            app:destination="@+id/bookDetailsFragment" >
+            app:destination="@+id/bookDetailsFragment">
 
             <argument
                 android:name="book"
@@ -24,7 +24,7 @@
     <fragment
         android:id="@+id/bookDetailsFragment"
         android:name="com.jmadrigal.capstone.features.book.view.fragment.BookDetailsFragment"
-        android:label="BookDetailsFragment"
+        android:label="Detalle"
         tools:layout="@layout/fragment_book_details">
         <argument
             android:name="book"

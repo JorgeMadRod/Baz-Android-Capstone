@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.jmadrigal.capstone.databinding.ActivitySplashBinding
-import com.jmadrigal.capstone.features.books.view.activity.MainActivity
+import com.jmadrigal.capstone.features.navigation.MainActivity
 import com.jmadrigal.capstone.utils.Constants.SPLASH_DELAY
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
