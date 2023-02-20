@@ -13,16 +13,23 @@
         android:id="@+id/txtTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_semibold"
+        android:includeFontPadding="false"
+        android:textColor="@color/title_text_color"
         android:textSize="@dimen/title_size"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@string/mock_title" />
 
     <TextView
         android:id="@+id/lblPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_20"
+        android:fontFamily="@font/poppins_regular"
+        android:includeFontPadding="false"
         android:text="@string/price"
+        android:textColor="@color/secondary_text_color"
         android:textSize="@dimen/secondary_title_size"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtTitle" />
@@ -32,30 +39,42 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_10"
+        android:fontFamily="@font/poppins_medium"
+        android:includeFontPadding="false"
+        android:textColor="@color/primary_text_color"
         android:textSize="@dimen/text_size_20"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lblPrice" />
+        app:layout_constraintTop_toBottomOf="@+id/lblPrice"
+        tools:text="@string/mock_price" />
 
     <TextView
         android:id="@+id/txtHighPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_medium"
         android:gravity="center"
+        android:includeFontPadding="false"
+        android:textColor="@color/primary_text_color"
         android:textSize="@dimen/text_size_14"
         app:drawableEndCompat="@drawable/ic_arrow_up"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/lblPrice" />
+        app:layout_constraintTop_toTopOf="@+id/lblPrice"
+        tools:text="@string/mock_price" />
 
     <TextView
         android:id="@+id/txtLowPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_medium"
         android:gravity="center"
+        android:includeFontPadding="false"
+        android:textColor="@color/primary_text_color"
         android:textSize="@dimen/text_size_14"
         app:drawableEndCompat="@drawable/ic_arrow_down"
         app:layout_constraintBottom_toBottomOf="@+id/txtPrice"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtHighPrice" />
+        app:layout_constraintTop_toBottomOf="@+id/txtHighPrice"
+        tools:text="@string/mock_price" />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
@@ -88,5 +107,16 @@
         app:layout_constraintTop_toBottomOf="@+id/tabLayout"
         tools:itemCount="3"
         tools:listitem="@layout/row_tabs" />
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <include layout="@layout/book_details_placeholder"/>
+    </com.facebook.shimmer.ShimmerFrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

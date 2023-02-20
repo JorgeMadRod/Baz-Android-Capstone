@@ -1,17 +1,23 @@
 package com.jmadrigal.capstone.di
 
+import android.content.Context
+import androidx.room.Room
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.jmadrigal.capstone.BuildConfig
+import com.jmadrigal.capstone.core.database.*
 import com.jmadrigal.capstone.core.network.BitsoService
-import com.jmadrigal.capstone.core.utils.Constants.BASE_URL
-import com.jmadrigal.capstone.core.utils.Constants.DEFAULT_TIME_OUT
+import com.jmadrigal.capstone.utils.Constants.BASE_URL
+import com.jmadrigal.capstone.utils.Constants.DEFAULT_TIME_OUT
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
@@ -29,11 +35,27 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideOkHttpClient(): OkHttpClient {
-        val loggingInterceptor = HttpLoggingInterceptor()
-        loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+    fun providesInterceptor() =
+         HttpLoggingInterceptor().apply {
+            setLevel(
+                if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY
+                else HttpLoggingInterceptor.Level.NONE
+            )
+        }
+
+
+    @Singleton
+    @Provides
+    fun provideOkHttpClient(interceptor : HttpLoggingInterceptor): OkHttpClient {
         val client = OkHttpClient().newBuilder()
-            .addInterceptor(loggingInterceptor)
+            .addInterceptor { chain ->
+                val newRequest = chain.request().newBuilder()
+                    .addHeader("User-Agent", "Capstone-Android/1.0")
+                    .addHeader("Accept-Language", "es")
+                    .build()
+                chain.proceed(newRequest)
+            }
+            .addInterceptor(interceptor)
             .readTimeout(DEFAULT_TIME_OUT, TimeUnit.MINUTES)
             .writeTimeout(DEFAULT_TIME_OUT, TimeUnit.MINUTES)
             .connectTimeout(DEFAULT_TIME_OUT, TimeUnit.MINUTES)
@@ -48,6 +70,7 @@ object AppModule {
         Retrofit.Builder()
             .client(client)
             .baseUrl(BASE_URL)
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create(gson))
 
     @Singleton
@@ -56,4 +79,21 @@ object AppModule {
         retrofit
             .build()
             .create(BitsoService::class.java)
+
+
+    @Singleton
+    @Provides
+    fun providesCapstoneDatabase(@ApplicationContext context: Context): CapstoneDatabase =
+        Room.databaseBuilder(context, CapstoneDatabase::class.java, "capstone_db")
+            .build()
+
+    @Singleton
+    @Provides
+    fun providesAvailableBookDao(db: CapstoneDatabase): AvailableBookDao =
+        db.availableBookDao()
+
+    @Singleton
+    @Provides
+    fun providesBookDao(db: CapstoneDatabase): BookDao =
+        db.bookDao()
 }

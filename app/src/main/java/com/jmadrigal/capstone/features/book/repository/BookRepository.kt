@@ -2,13 +2,11 @@ package com.jmadrigal.capstone.features.book.repository
 
 import com.jmadrigal.capstone.core.models.Book
 import com.jmadrigal.capstone.core.models.OrderBook
-import com.jmadrigal.capstone.core.network.BitsoService
 
-class BookRepository(private val bitsoService: BitsoService) {
+interface BookRepository {
 
-    suspend fun getTicker(book: String): Book =
-        bitsoService.getTicker(book).payload
-
-    suspend fun getOrderBook(id: String): OrderBook =
-        bitsoService.getOrderBook(id).payload
+    suspend fun getTicker(book: String): Book
+    suspend fun getLocalBook(book: String): Book
+    suspend fun getOrderBook(book: String): OrderBook
+    suspend fun getLocalOrderBook(book: String): OrderBook
 }

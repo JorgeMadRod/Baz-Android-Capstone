@@ -1,9 +1,11 @@
 package com.jmadrigal.capstone.features.books.repository
 
-import com.jmadrigal.capstone.core.network.BitsoService
+import com.jmadrigal.capstone.core.models.AvailableBook
 
-class BooksRepository(private val bitsoService: BitsoService) {
-    suspend fun getBooks() =
-        bitsoService.getBooks().payload
+interface BooksRepository {
 
+    suspend fun search(query: String): List<AvailableBook>
+    suspend fun getBooks(): List<AvailableBook>
+    suspend fun getRxBooks(): List<AvailableBook>
+    suspend fun getLocalBooks(): List<AvailableBook>
 }

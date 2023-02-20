@@ -6,14 +6,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jmadrigal.capstone.core.models.Book
 import com.jmadrigal.capstone.core.models.OrderBook
-import com.jmadrigal.capstone.features.book.repository.BookRepository
+import com.jmadrigal.capstone.features.book.repository.BookRepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class BookDetailViewModel @Inject constructor(
-    private val repository: BookRepository) : ViewModel() {
+    private val repository: BookRepositoryImpl) : ViewModel() {
 
     private val _orderBook = MutableLiveData<OrderBook?>()
     val orderBook: LiveData<OrderBook?> = _orderBook
