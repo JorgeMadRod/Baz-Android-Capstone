@@ -7,21 +7,25 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.jmadrigal.capstone.R
 import com.jmadrigal.capstone.databinding.ActivityMainBinding
+import com.jmadrigal.capstone.features.books.view.fragment.BooksFragmentFactory
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var appBarConfiguration: AppBarConfiguration
-    private val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
+    @Inject
+    lateinit var fragmentFactory : BooksFragmentFactory
 
+    private val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
+    private lateinit var appBarConfiguration: AppBarConfiguration
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        supportFragmentManager.fragmentFactory = fragmentFactory
         setContentView(binding.root)
+
         val toolbar = binding.toolbar
         setSupportActionBar(toolbar)
-
-
 
         val host: NavHostFragment = supportFragmentManager
             .findFragmentById(R.id.fragmentContainer) as NavHostFragment? ?: return

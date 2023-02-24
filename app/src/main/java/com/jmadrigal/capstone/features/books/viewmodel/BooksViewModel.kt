@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jmadrigal.capstone.core.models.AvailableBook
+import com.jmadrigal.capstone.features.books.repository.BooksRepository
 import com.jmadrigal.capstone.features.books.repository.BooksRepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -12,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BooksViewModel @Inject constructor(
-    private val repository: BooksRepositoryImpl) : ViewModel() {
+    private val repository: BooksRepository) : ViewModel() {
 
     private val _books = MutableLiveData<List<AvailableBook>>()
     val books: LiveData<List<AvailableBook>> = _books

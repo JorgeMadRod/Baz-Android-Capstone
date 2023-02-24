@@ -7,6 +7,7 @@ import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jmadrigal.capstone.R
@@ -15,14 +16,16 @@ import com.jmadrigal.capstone.databinding.FragmentAvailableBooksBinding
 import com.jmadrigal.capstone.features.books.view.adapter.AvailableBooksAdapter
 import com.jmadrigal.capstone.features.books.viewmodel.BooksViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class AvailableBooksFragment : Fragment() {
+class AvailableBooksFragment @Inject constructor() : Fragment(R.layout.fragment_available_books) {
 
     private var _binding: FragmentAvailableBooksBinding? = null
     private val binding get() = _binding!!
     private val viewModel: BooksViewModel by activityViewModels()
+    //lateinit var viewModel : BooksViewModel
     private val availableBooksAdapter by lazy { AvailableBooksAdapter { onBookSelected(it) } }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,17 +33,19 @@ class AvailableBooksFragment : Fragment() {
         setHasOptionsMenu(true)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    /*override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = FragmentAvailableBooksBinding.inflate(inflater, container, false)
         _binding?.let {
             return it.root
         }
         return super.onCreateView(inflater, container, savedInstanceState)
-    }
+    }*/
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //viewModel = ViewModelProvider(requireActivity()).get(BooksViewModel::class.java)
+        _binding = FragmentAvailableBooksBinding.bind(view)
         setupListeners()
         setupObservers()
         binding.shimmer.startShimmer()
@@ -55,7 +60,7 @@ class AvailableBooksFragment : Fragment() {
     }
 
     private fun setupObservers() {
-        viewModel.chip.observe(viewLifecycleOwner){
+        viewModel.chip.observe(viewLifecycleOwner) {
             binding.searchChip.visibility = if (it == null) View.GONE else View.VISIBLE
             binding.searchChip.text = it
         }
