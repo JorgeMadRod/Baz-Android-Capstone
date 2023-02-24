@@ -67,7 +67,7 @@ class AvailableBooksFragment : Fragment() {
 
     private fun setupRecycler(bookList: List<AvailableBook>) {
         availableBooksAdapter.submitList(bookList)
-        binding.recycler.apply {
+        binding.rvAvailableBooks.apply {
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(true)
             adapter = availableBooksAdapter

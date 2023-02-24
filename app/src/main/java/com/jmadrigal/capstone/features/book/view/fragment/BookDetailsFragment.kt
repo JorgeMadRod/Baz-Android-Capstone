@@ -85,7 +85,7 @@ class BookDetailsFragment : Fragment(), TabLayout.OnTabSelectedListener {
     }
 
     private fun setupRecycler() {
-        binding.recycler.apply {
+        binding.rvList.apply {
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(true)
         }
@@ -98,13 +98,13 @@ class BookDetailsFragment : Fragment(), TabLayout.OnTabSelectedListener {
         println("tab ${tab?.position}")
         when (tab?.position) {
             0 -> {
-                binding.recycler.adapter = askAdapter
+                binding.rvList.adapter = askAdapter
                 val list = viewModel.orderBook.value?.asks
                 askAdapter.submitList(list)
 
             }
             1 -> {
-                binding.recycler.adapter = askAdapter
+                binding.rvList.adapter = askAdapter
                 askAdapter.submitList(viewModel.orderBook.value?.bids)
             }
         }

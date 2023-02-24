@@ -1,29 +1,30 @@
 package com.jmadrigal.capstone.features.books.view.fragment
 
-class AvailableBooksFragmentTest() {}
-/*
-import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.navigation.NavController
-import androidx.navigation.Navigation
 import androidx.test.espresso.Espresso.onData
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.filters.SmallTest
 import com.jmadrigal.capstone.R
+import com.jmadrigal.capstone.core.models.AvailableBook
+import com.jmadrigal.capstone.core.models.AvailableBooksResponse
+import com.jmadrigal.capstone.features.books.view.adapter.AvailableBooksAdapter
+import com.jmadrigal.capstone.launchFragmentInHiltContainer
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.hamcrest.CoreMatchers.anything
-import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 import org.mockito.Mockito.mock
-import org.mockito.Mockito.verify
-/*
+
+@ExperimentalCoroutinesApi
+@SmallTest
 @HiltAndroidTest
-@RunWith(AndroidJUnit4::class)
-class AvailableBooksFragmentTest {
+class AvailableBooksFragmentTest() {
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
@@ -36,15 +37,33 @@ class AvailableBooksFragmentTest {
     @Test
     fun testNavigationToDetail() {
 
-        val mockNavController = mock(NavController::class.java)
+       /* val mockNavController = mock(NavController::class.java)
 
-        val first = launchFragmentInContainer<AvailableBooksFragment>()
+        launchFragmentInHiltContainer<AvailableBooksFragment>()/*.onFragment { fragment ->
+            Log.v("===", "Antes")
+            Assert.assertNotNull(fragment.activity)
+            Log.v("===", "Despues")
+            mockNavController.setGraph(R.navigation.capstone_navigation)
+            Navigation.setViewNavController(fragment.requireView(), mockNavController)
+        }*/
+        /*val first = launchFragmentInContainer<AvailableBooksFragment>()
 
         first.onFragment { fragment ->
             Navigation.setViewNavController(fragment.requireView(), mockNavController)
-        }
+        }*/
 
-        onData(anything()).inAdapterView(withId(R.id.recycler)).atPosition(0).perform(click())
-        verify(mockNavController).navigate(R.id.actionNavToDetail)
+        val response = AvailableBooksResponse(true, ArrayList<AvailableBook>())
+
+        onData(anything()).inAdapterView(withId(R.id.rvAvailableBooks))
+            .perform(RecyclerViewActions.scrollToLastPosition<AvailableBooksAdapter.ViewHolder>())*/
+
+        /*onView(withId(R.id.rvAvailableBooks))
+            .perform(RecyclerViewActions
+                .actionOnItemAtPosition<AvailableBooksAdapter.ViewHolder>(0, click()))*
+        //onData(anything()).inAdapterView(withId(R.id.rvAvailableBooks))//.atPosition(0).perform(click())
+        /*verify(mockNavController).navigate(R.id.actionNavToDetail)
+        Assert.assertEquals(mockNavController.currentDestination?.id, R.id.bookDetailsFragment)*/
+
+        mockNavController.setGraph(R.navigation.capstone_navigation)*/
     }
-}*/
+}
