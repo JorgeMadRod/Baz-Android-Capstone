@@ -25,7 +25,7 @@ class BooksViewModelTest {
     @get:Rule
     val rule = InstantTaskExecutorRule()
 
-    private val listOfBooks = listOf<AvailableBook>(
+    private val listOfBooks = listOf(
         AvailableBook("A", "1", "1", "1", "2", "2", "2"),
         AvailableBook("B", "1", "1", "1", "2", "2", "2"),
         AvailableBook("C", "1", "1", "1", "2", "2", "2"))

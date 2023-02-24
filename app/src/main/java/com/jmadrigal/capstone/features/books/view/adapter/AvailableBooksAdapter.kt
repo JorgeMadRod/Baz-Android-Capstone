@@ -15,8 +15,6 @@ import com.jmadrigal.capstone.core.models.AvailableBook
 import com.jmadrigal.capstone.databinding.RowAvailableBooksBinding
 import com.jmadrigal.capstone.utils.OnItemSelected
 
-// Function type
-
 class AvailableBooksAdapter(private var bookSelected: OnItemSelected<AvailableBook>) :
     ListAdapter<AvailableBook, AvailableBooksAdapter.ViewHolder>(DiffUtilsCallBack()), Filterable {
 
@@ -31,10 +29,9 @@ class AvailableBooksAdapter(private var bookSelected: OnItemSelected<AvailableBo
         with(holder) {
             with(getItem(position)) {
                 val bookValues = this.book.uppercase().split("_")
-                binding.txtName.text = "${bookValues[0]} \u25b8 ${bookValues[1]}"
+                binding.txtName.text = holder.binding.root.context.getString(R.string.available_books_name, bookValues[0], bookValues[1])
                 Glide.with(binding.root.context)
-                    //.load("https://cryptoicons.org/api/icon/${bookValues[0]}/200")
-                    .load("https://coinicons-api.vercel.app/api/icon/${this.book.split("_")[0]}")
+                    .load(holder.binding.root.context.getString(R.string.url_icon, this.book.split("_")[0]))
                     .error(R.mipmap.ic_launcher_round)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .priority(Priority.HIGH)
@@ -74,9 +71,9 @@ class AvailableBooksAdapter(private var bookSelected: OnItemSelected<AvailableBo
             originalList = list ?: listOf()
         super.submitList(list)
     }
+
     fun onFilter(list: List<AvailableBook>, constraint: String): List<AvailableBook> {
         val filteredList = list.filter {
-            // Estamos filtrando por el nombre del libro
             it.book.contains(constraint.lowercase())
         }
         return filteredList

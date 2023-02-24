@@ -1,6 +1,6 @@
 package com.jmadrigal.capstone.features.books.view.fragment
 
-class AvailableBooksFragmentTest() {}
+class AvailableBooksFragmentTest
 /*
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.navigation.NavController

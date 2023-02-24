@@ -27,14 +27,6 @@ class BookDetailsFragment : Fragment(), TabLayout.OnTabSelectedListener {
 
     private val askAdapter: AsksAdapter by lazy { AsksAdapter() }
 
-    /*companion object {
-        fun newInstance(book: AvailableBook): BookDetailsFragment {
-            val fragment = BookDetailsFragment()
-            fragment.book = book
-            return fragment
-        }
-    }*/
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = FragmentBookDetailsBinding.inflate(inflater, container, false)
         _binding?.let {
@@ -76,7 +68,7 @@ class BookDetailsFragment : Fragment(), TabLayout.OnTabSelectedListener {
             parentFragmentManager.popBackStack()
         } else {
             binding.txtTitle.text = book.book.uppercase().split("_")[0]
-            binding.lblPrice.text = "Precio ${book.book.uppercase().split("_")[1]}"
+            binding.lblPrice.text = getString(R.string.price_details, book.book.uppercase().split("_")[1])
             binding.txtPrice.text = book.last.convertToCurrency()
             binding.txtHighPrice.text = book.high.convertToCurrency()
             binding.txtLowPrice.text = book.low.convertToCurrency()
@@ -95,7 +87,6 @@ class BookDetailsFragment : Fragment(), TabLayout.OnTabSelectedListener {
     }
 
     override fun onTabSelected(tab: TabLayout.Tab?) {
-        println("tab ${tab?.position}")
         when (tab?.position) {
             0 -> {
                 binding.recycler.adapter = askAdapter

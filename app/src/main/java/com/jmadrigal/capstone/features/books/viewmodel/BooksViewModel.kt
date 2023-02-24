@@ -45,5 +45,4 @@ class BooksViewModel @Inject constructor(
             _books.postValue(result)
         }
     }
-
 }

@@ -21,8 +21,6 @@ class MainActivity : AppCompatActivity() {
         val toolbar = binding.toolbar
         setSupportActionBar(toolbar)
 
-
-
         val host: NavHostFragment = supportFragmentManager
             .findFragmentById(R.id.fragmentContainer) as NavHostFragment? ?: return
 
@@ -33,9 +31,9 @@ class MainActivity : AppCompatActivity() {
 
         host.navController.addOnDestinationChangedListener { _, destination, args ->
             title = when (destination.id) {
-                R.id.availableBooksFragment -> "Disponibles"
-                R.id.bookDetailsFragment -> "Detalle"
-                else -> ""
+                R.id.availableBooksFragment -> getString(R.string.nav_available)
+                R.id.bookDetailsFragment -> getString(R.string.nav_details)
+                else -> getString(R.string.nav_empty)
             }
         }
     }

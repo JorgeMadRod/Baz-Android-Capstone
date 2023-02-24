@@ -16,7 +16,6 @@ import com.jmadrigal.capstone.features.books.view.adapter.AvailableBooksAdapter
 import com.jmadrigal.capstone.features.books.viewmodel.BooksViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
-
 @AndroidEntryPoint
 class AvailableBooksFragment : Fragment() {
 
@@ -38,13 +37,11 @@ class AvailableBooksFragment : Fragment() {
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupListeners()
         setupObservers()
         binding.shimmer.startShimmer()
-        //viewModel.getBooks()
         viewModel.getRxBooks()
     }
 
@@ -91,14 +88,13 @@ class AvailableBooksFragment : Fragment() {
         val searchManager = requireActivity().getSystemService(Context.SEARCH_SERVICE) as SearchManager
         val searchView: SearchView = searchItem?.actionView as SearchView
         searchView.setSearchableInfo(searchManager.getSearchableInfo(requireActivity().componentName))
-        searchView.queryHint = "Buscar una cripto"
+        searchView.queryHint = getString(R.string.hint_query_search)
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 if (!searchView.isIconified) {
                     searchView.isIconified = true
                 }
-                //availableBooksAdapter.filter.filter(query)
                 viewModel.search(query)
                 searchItem.collapseActionView()
                 return false
