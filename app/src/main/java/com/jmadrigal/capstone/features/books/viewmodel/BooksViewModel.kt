@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jmadrigal.capstone.core.models.AvailableBook
 import com.jmadrigal.capstone.features.books.repository.BooksRepository
-import com.jmadrigal.capstone.features.books.repository.BooksRepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

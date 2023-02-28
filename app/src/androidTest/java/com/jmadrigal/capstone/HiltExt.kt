@@ -14,7 +14,7 @@ inline fun <reified T : Fragment> launchFragmentInHiltContainer(
     fragmentArgs: Bundle? = null,
     themeResId: Int =
         androidx.fragment.testing.R.style.FragmentScenarioEmptyFragmentActivityTheme,
-    factory: FragmentFactory,
+    factory: FragmentFactory? = null,
     crossinline action: T.() -> Unit = {}
 ) {
     val startActivityIntent = Intent.makeMainActivity(
@@ -25,7 +25,9 @@ inline fun <reified T : Fragment> launchFragmentInHiltContainer(
     ).putExtra("FragmentScenario.EmptyFragmentActivity.THEME_EXTRAS_BUNDLE_KEY", themeResId)
 
     ActivityScenario.launch<HiltTestActivity>(startActivityIntent).onActivity { activity ->
-        activity.supportFragmentManager.fragmentFactory = factory
+        factory?.let {
+            activity.supportFragmentManager.fragmentFactory = it
+        }
         val fragment: Fragment = activity.supportFragmentManager.fragmentFactory.instantiate(
             Preconditions.checkNotNull(T::class.java.classLoader),
             T::class.java.name
@@ -39,32 +41,3 @@ inline fun <reified T : Fragment> launchFragmentInHiltContainer(
         (fragment as T).action()
     }
 }
-/*
-inline fun <reified T : Fragment> launchFragmentInHiltContainer(
-    fragmentArgs: Bundle? = null,
-    themeResId: Int = androidx.fragment.testing.R.style.FragmentScenarioEmptyFragmentActivityTheme,
-    factory : FragmentFactory,
-    crossinline action: Fragment.() -> Unit = {}
-) {
-    val startActivityIntent = Intent.makeMainActivity(
-        ComponentName(
-            ApplicationProvider.getApplicationContext(),
-            HiltTestActivity::class.java
-        )
-    ).putExtra("androidx.fragment.app.testing.FragmentScenario.EmptyFragmentActivity.THEME_EXTRAS_BUNDLE_KEY", themeResId)
-
-    ActivityScenario.launch<HiltTestActivity>(startActivityIntent).onActivity { activity ->
-        activity.supportFragmentManager.fragmentFactory = factory
-        val fragment: Fragment = activity.supportFragmentManager.fragmentFactory.instantiate(
-            Preconditions.checkNotNull(T::class.java.classLoader),
-            T::class.java.name
-        )
-        fragment.arguments = fragmentArgs
-        activity.supportFragmentManager
-            .beginTransaction()
-            .add(android.R.id.content, fragment, "")
-            .commitNow()
-
-        (fragment as T).action()
-    }
-}*/

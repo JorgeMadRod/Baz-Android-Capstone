@@ -3,11 +3,13 @@ package com.jmadrigal.capstone.features.books.view.fragment
 import android.app.SearchManager
 import android.content.Context
 import android.os.Bundle
-import android.view.*
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jmadrigal.capstone.R
@@ -24,8 +26,8 @@ class AvailableBooksFragment @Inject constructor() : Fragment(R.layout.fragment_
 
     private var _binding: FragmentAvailableBooksBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: BooksViewModel by activityViewModels()
-    //lateinit var viewModel : BooksViewModel
+
+    private val viewModel: BooksViewModel by viewModels()
     private val availableBooksAdapter by lazy { AvailableBooksAdapter { onBookSelected(it) } }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,24 +35,14 @@ class AvailableBooksFragment @Inject constructor() : Fragment(R.layout.fragment_
         setHasOptionsMenu(true)
     }
 
-    /*override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        _binding = FragmentAvailableBooksBinding.inflate(inflater, container, false)
-        _binding?.let {
-            return it.root
-        }
-        return super.onCreateView(inflater, container, savedInstanceState)
-    }*/
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //viewModel = ViewModelProvider(requireActivity()).get(BooksViewModel::class.java)
         _binding = FragmentAvailableBooksBinding.bind(view)
         setupListeners()
         setupObservers()
-        binding.shimmer.startShimmer()
-        //viewModel.getBooks()
-        viewModel.getRxBooks()
+        binding.shimmerAvB.startShimmer()
+        viewModel.getBooks()
+        //viewModel.getRxBooks()
     }
 
     private fun setupListeners() {
@@ -77,8 +69,8 @@ class AvailableBooksFragment @Inject constructor() : Fragment(R.layout.fragment_
             setHasFixedSize(true)
             adapter = availableBooksAdapter
         }
-        binding.shimmer.stopShimmer()
-        binding.shimmer.visibility = View.GONE
+        binding.shimmerAvB.stopShimmer()
+        binding.shimmerAvB.visibility = View.GONE
     }
 
     private fun onBookSelected(book: AvailableBook) {
@@ -119,11 +111,11 @@ class AvailableBooksFragment @Inject constructor() : Fragment(R.layout.fragment_
 
     override fun onResume() {
         super.onResume()
-        _binding?.shimmer?.startShimmer()
+        _binding?.shimmerAvB?.startShimmer()
     }
 
     override fun onPause() {
-        _binding?.shimmer?.stopShimmer()
+        _binding?.shimmerAvB?.stopShimmer()
         super.onPause()
     }
 
