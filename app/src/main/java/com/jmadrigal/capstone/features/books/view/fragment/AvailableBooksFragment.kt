@@ -14,6 +14,7 @@ import com.jmadrigal.capstone.core.models.AvailableBook
 import com.jmadrigal.capstone.databinding.FragmentAvailableBooksBinding
 import com.jmadrigal.capstone.features.books.view.adapter.AvailableBooksAdapter
 import com.jmadrigal.capstone.features.books.viewmodel.BooksViewModel
+import com.jmadrigal.capstone.utils.findNavControllerSafely
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -78,8 +79,8 @@ class AvailableBooksFragment : Fragment() {
     }
 
     private fun navToDetails(book: AvailableBook) {
-        val action = AvailableBooksFragmentDirections.actionNavToDetail(book)
-        findNavController().navigate(action)
+        val action = AvailableBooksFragmentDirections.actionNavToDetail( book)
+        findNavControllerSafely(R.id.availableBooksFragment)?.navigate(action)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
