@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
 
         appBarConfiguration = AppBarConfiguration(host.navController.graph)
 
-        host.navController.addOnDestinationChangedListener { _, destination, args ->
+        host.navController.addOnDestinationChangedListener { _, destination, _ ->
             title = when (destination.id) {
                 R.id.availableBooksFragment -> getString(R.string.nav_available)
                 R.id.bookDetailsFragment -> getString(R.string.nav_details)

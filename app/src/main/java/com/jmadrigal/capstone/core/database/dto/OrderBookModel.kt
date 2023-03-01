@@ -9,7 +9,7 @@ import com.jmadrigal.capstone.core.models.OrderBook
 data class OrderBookModel(
     @PrimaryKey
     var book: String,
-    var updated_at: String,
+    var updatedAt: String,
     var sequence: String,
     var bids: List<Ask>?,
     var asks: List<Ask>?
@@ -18,7 +18,7 @@ data class OrderBookModel(
         fun fromOrderBook(book: String, orderBook: OrderBook): OrderBookModel {
             return OrderBookModel(
                 book = book,
-                updated_at = orderBook.updated_at,
+                updatedAt = orderBook.updatedAt,
                 sequence = orderBook.sequence,
                 bids = orderBook.bids,
                 asks = orderBook.asks
@@ -28,7 +28,7 @@ data class OrderBookModel(
 
     fun toOrderBook(): OrderBook {
         return OrderBook(
-            updated_at = this.updated_at,
+            updatedAt = this.updatedAt,
             sequence = this.sequence,
             bids = this.bids ?: listOf(),
             asks = this.asks ?: listOf()

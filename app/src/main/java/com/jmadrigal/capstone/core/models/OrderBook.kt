@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 data class OrderBook(
     @SerializedName("updated_at")
     @Expose
-    var updated_at: String,
+    var updatedAt: String,
     @SerializedName("sequence")
     @Expose
     var sequence: String,
