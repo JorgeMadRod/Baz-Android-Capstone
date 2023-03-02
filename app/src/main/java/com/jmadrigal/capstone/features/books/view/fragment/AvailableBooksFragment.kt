@@ -10,6 +10,7 @@ import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jmadrigal.capstone.R
@@ -18,6 +19,7 @@ import com.jmadrigal.capstone.databinding.FragmentAvailableBooksBinding
 import com.jmadrigal.capstone.features.books.view.adapter.AvailableBooksAdapter
 import com.jmadrigal.capstone.features.books.viewmodel.BooksViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -52,14 +54,20 @@ class AvailableBooksFragment @Inject constructor() : Fragment(R.layout.fragment_
     }
 
     private fun setupObservers() {
-        viewModel.chip.observe(viewLifecycleOwner) {
-            binding.searchChip.visibility = if (it == null) View.GONE else View.VISIBLE
-            binding.searchChip.text = it
+
+        lifecycleScope.launch {
+            viewModel.books.collect {
+                setupRecycler(it)
+            }
         }
 
-        viewModel.books.observe(viewLifecycleOwner) {
-            setupRecycler(it)
+        lifecycleScope.launch{
+            viewModel.chip.collect {
+                binding.searchChip.visibility = if (it == null) View.GONE else View.VISIBLE
+                binding.searchChip.text = it
+            }
         }
+
     }
 
     private fun setupRecycler(bookList: List<AvailableBook>) {
