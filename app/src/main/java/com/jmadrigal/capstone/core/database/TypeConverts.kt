@@ -4,6 +4,7 @@ import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.jmadrigal.capstone.core.models.Ask
+import com.jmadrigal.capstone.utils.genericType
 import java.lang.reflect.Type
 
 class TypeConverts {
@@ -21,8 +22,7 @@ class TypeConverts {
         return if (value == null) {
             null
         } else {
-            val listType: Type = object : TypeToken<ArrayList<Ask?>?>() {}.type
-            Gson().fromJson(value, listType)
+            Gson().fromJson(value, genericType<ArrayList<Ask?>>())
         }
     }
 }

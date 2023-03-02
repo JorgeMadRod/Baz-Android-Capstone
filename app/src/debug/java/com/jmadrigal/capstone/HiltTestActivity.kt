@@ -1,4 +1,4 @@
-package com.jmadrigal.capstone.utils
+package com.jmadrigal.capstone
 
 import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
