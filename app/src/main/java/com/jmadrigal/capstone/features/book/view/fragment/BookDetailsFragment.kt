@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.tabs.TabLayout
@@ -17,6 +18,7 @@ import com.jmadrigal.capstone.databinding.FragmentBookDetailsBinding
 import com.jmadrigal.capstone.features.book.view.adapter.AsksAdapter
 import com.jmadrigal.capstone.features.book.viewmodel.BookDetailViewModel
 import com.jmadrigal.capstone.utils.convertToCurrency
+import kotlinx.coroutines.launch
 
 class BookDetailsFragment : Fragment(), TabLayout.OnTabSelectedListener {
 
@@ -49,15 +51,15 @@ class BookDetailsFragment : Fragment(), TabLayout.OnTabSelectedListener {
     }
 
     private fun setupObservers() {
-        viewModel.ticker.observe(viewLifecycleOwner) { response ->
-            response?.let {
-                loadValues(it)
+        lifecycleScope.launch {
+            viewModel.ticker.collect { response ->
+                response?.let { loadValues(it) }
             }
         }
 
-        viewModel.orderBook.observe(viewLifecycleOwner) { response ->
-            response?.let {
-                setupRecycler()
+        lifecycleScope.launch {
+            viewModel.orderBook.collect { response ->
+                response?.let { setupRecycler() }
             }
         }
     }
