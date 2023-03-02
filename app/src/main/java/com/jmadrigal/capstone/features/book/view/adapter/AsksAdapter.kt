@@ -19,9 +19,9 @@ class AsksAdapter : ListAdapter<Ask, AsksAdapter.ViewHolder>(DiffUtilsCallback()
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder) {
             with(getItem(position)) {
-                binding.txtAmount.text = this.amount.convertToCurrency()
+                binding.txtAmount.text = this.formattedAmount
                 binding.txtBook.text = this.book
-                binding.txtPrice.text = this.price.convertToCurrency()
+                binding.txtPrice.text = this.formattedPrice
             }
         }
     }

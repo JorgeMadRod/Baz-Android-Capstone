@@ -26,30 +26,24 @@ class BookRepositoryImpl(private val bitsoService: BitsoService,
     @SuppressLint("SuspiciousIndentation")
     override suspend fun getLocalBook(book: String): Book {
         val localBook = dao.getBook(book)
-        if (localBook == null) {
-            return Book("", "", "", "", "", "", "", "", "")
-        } else
-            return localBook.toBook()
+        return (localBook?:BookModel(book, "0", "0", "0", "0", "0", "", "", "")).toBook()
     }
 
-    override suspend fun getOrderBook(id: String): OrderBook {
+    override suspend fun getOrderBook(book: String): OrderBook {
         return try {
-            val response = bitsoService.getOrderBook(id).payload
-            val orderBookModel = OrderBookModel.fromOrderBook(id, response)
+            val response = bitsoService.getOrderBook(book).payload
+            val orderBookModel = OrderBookModel.fromOrderBook(book, response)
             dao.saveOrderBook(orderBookModel)
-            getLocalOrderBook(id)
+            getLocalOrderBook(book)
         } catch (ex: Exception) {
             ex.printStackTrace()
-            getLocalOrderBook(id)
+            getLocalOrderBook(book)
         }
     }
 
-    override suspend fun getLocalOrderBook(id: String): OrderBook {
-        val localOrderBook = dao.getOrderBook(id)
-        if (localOrderBook == null) {
-            return OrderBook("", "", listOf(), listOf())
-        } else
-            return localOrderBook.toOrderBook()
+    override suspend fun getLocalOrderBook(book: String): OrderBook {
+        val localOrderBook = dao.getOrderBook(book)
+        return (localOrderBook ?: OrderBookModel("", "", "", listOf(), listOf())).toOrderBook()
     }
 
 }

@@ -7,21 +7,25 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.jmadrigal.capstone.R
 import com.jmadrigal.capstone.databinding.ActivityMainBinding
+import com.jmadrigal.capstone.features.books.view.fragment.BooksFragmentFactory
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var appBarConfiguration: AppBarConfiguration
-    private val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
+    @Inject
+    lateinit var fragmentFactory : BooksFragmentFactory
 
+    private val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
+    private lateinit var appBarConfiguration: AppBarConfiguration
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        supportFragmentManager.fragmentFactory = fragmentFactory
         setContentView(binding.root)
+
         val toolbar = binding.toolbar
         setSupportActionBar(toolbar)
-
-
 
         val host: NavHostFragment = supportFragmentManager
             .findFragmentById(R.id.fragmentContainer) as NavHostFragment? ?: return
@@ -31,11 +35,11 @@ class MainActivity : AppCompatActivity() {
 
         appBarConfiguration = AppBarConfiguration(host.navController.graph)
 
-        host.navController.addOnDestinationChangedListener { _, destination, args ->
+        host.navController.addOnDestinationChangedListener { _, destination, _ ->
             title = when (destination.id) {
-                R.id.availableBooksFragment -> "Disponibles"
-                R.id.bookDetailsFragment -> "Detalle"
-                else -> ""
+                R.id.availableBooksFragment -> getString(R.string.nav_available)
+                R.id.bookDetailsFragment -> getString(R.string.nav_details)
+                else -> getString(R.string.nav_empty)
             }
         }
     }

@@ -11,13 +11,13 @@ import com.jmadrigal.capstone.core.database.dto.OrderBookModel
 interface BookDao {
 
     @Query("SELECT * FROM book  WHERE book LIKE :book")
-    suspend fun getBook(book: String): BookModel
+    suspend fun getBook(book: String): BookModel?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveBook(books: BookModel)
 
     @Query("SELECT * FROM orderBook WHERE book LIKE :book")
-    suspend fun getOrderBook(book: String): OrderBookModel
+    suspend fun getOrderBook(book: String): OrderBookModel?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveOrderBook(orderBookModel: OrderBookModel)

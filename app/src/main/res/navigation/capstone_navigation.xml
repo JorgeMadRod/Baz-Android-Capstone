@@ -2,13 +2,12 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/capstone_navigation"
     app:startDestination="@id/availableBooksFragment">
 
     <fragment
         android:id="@+id/availableBooksFragment"
         android:name="com.jmadrigal.capstone.features.books.view.fragment.AvailableBooksFragment"
-        android:label="Disponibles"
+        android:label="@string/nav_available"
         tools:layout="@layout/fragment_available_books">
 
         <action
@@ -24,7 +23,7 @@
     <fragment
         android:id="@+id/bookDetailsFragment"
         android:name="com.jmadrigal.capstone.features.book.view.fragment.BookDetailsFragment"
-        android:label="Detalle"
+        android:label="@string/nav_details"
         tools:layout="@layout/fragment_book_details">
         <argument
             android:name="book"
