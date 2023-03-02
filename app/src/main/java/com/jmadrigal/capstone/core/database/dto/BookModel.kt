@@ -35,17 +35,22 @@ data class BookModel(
     }
 
     fun toBook(): Book {
-        return Book(
-            book = this.book,
-            volume = this.volume,
-            high = this.high,
-            last = this.last,
-            low = this.low,
-            vwap = this.vwap,
-            ask = this.ask,
-            bid = this.bid,
-            createdAt = this.createdAt
-        )
+        return try {
+            Book(
+                book = this.book,
+                volume = this.volume,
+                high = this.high,
+                last = this.last,
+                low = this.low,
+                vwap = this.vwap,
+                ask = this.ask,
+                bid = this.bid,
+                createdAt = this.createdAt
+            )
+        } catch (ex:Exception){
+            ex.printStackTrace()
+            Book("", "", "", "", "", "", "", "", "")
+        }
     }
 
 }

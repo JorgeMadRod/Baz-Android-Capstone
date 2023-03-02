@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.tabs.TabLayout
@@ -17,6 +18,7 @@ import com.jmadrigal.capstone.databinding.FragmentBookDetailsBinding
 import com.jmadrigal.capstone.features.book.view.adapter.AsksAdapter
 import com.jmadrigal.capstone.features.book.viewmodel.BookDetailViewModel
 import com.jmadrigal.capstone.utils.convertToCurrency
+import kotlinx.coroutines.launch
 
 class BookDetailsFragment : Fragment(), TabLayout.OnTabSelectedListener {
 
@@ -26,14 +28,6 @@ class BookDetailsFragment : Fragment(), TabLayout.OnTabSelectedListener {
     private lateinit var book: AvailableBook
 
     private val askAdapter: AsksAdapter by lazy { AsksAdapter() }
-
-    /*companion object {
-        fun newInstance(book: AvailableBook): BookDetailsFragment {
-            val fragment = BookDetailsFragment()
-            fragment.book = book
-            return fragment
-        }
-    }*/
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = FragmentBookDetailsBinding.inflate(inflater, container, false)
@@ -57,15 +51,15 @@ class BookDetailsFragment : Fragment(), TabLayout.OnTabSelectedListener {
     }
 
     private fun setupObservers() {
-        viewModel.ticker.observe(viewLifecycleOwner) { response ->
-            response?.let {
-                loadValues(it)
+        lifecycleScope.launch {
+            viewModel.ticker.collect { response ->
+                response?.let { loadValues(it) }
             }
         }
 
-        viewModel.orderBook.observe(viewLifecycleOwner) { response ->
-            response?.let {
-                setupRecycler()
+        lifecycleScope.launch {
+            viewModel.orderBook.collect { response ->
+                response?.let { setupRecycler() }
             }
         }
     }
@@ -76,7 +70,7 @@ class BookDetailsFragment : Fragment(), TabLayout.OnTabSelectedListener {
             parentFragmentManager.popBackStack()
         } else {
             binding.txtTitle.text = book.book.uppercase().split("_")[0]
-            binding.lblPrice.text = "Precio ${book.book.uppercase().split("_")[1]}"
+            binding.lblPrice.text = getString(R.string.price_details, book.book.uppercase().split("_")[1])
             binding.txtPrice.text = book.last.convertToCurrency()
             binding.txtHighPrice.text = book.high.convertToCurrency()
             binding.txtLowPrice.text = book.low.convertToCurrency()
@@ -85,7 +79,7 @@ class BookDetailsFragment : Fragment(), TabLayout.OnTabSelectedListener {
     }
 
     private fun setupRecycler() {
-        binding.recycler.apply {
+        binding.rvList.apply {
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(true)
         }
@@ -95,16 +89,15 @@ class BookDetailsFragment : Fragment(), TabLayout.OnTabSelectedListener {
     }
 
     override fun onTabSelected(tab: TabLayout.Tab?) {
-        println("tab ${tab?.position}")
         when (tab?.position) {
             0 -> {
-                binding.recycler.adapter = askAdapter
+                binding.rvList.adapter = askAdapter
                 val list = viewModel.orderBook.value?.asks
                 askAdapter.submitList(list)
 
             }
             1 -> {
-                binding.recycler.adapter = askAdapter
+                binding.rvList.adapter = askAdapter
                 askAdapter.submitList(viewModel.orderBook.value?.bids)
             }
         }

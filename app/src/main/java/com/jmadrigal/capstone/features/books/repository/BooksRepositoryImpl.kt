@@ -6,7 +6,7 @@ import com.jmadrigal.capstone.core.models.AvailableBook
 import com.jmadrigal.capstone.core.network.BitsoService
 import io.reactivex.schedulers.Schedulers
 
-open class BooksRepositoryImpl(private val bitsoService: BitsoService,
+open class BooksRepositoryImpl(private val service: BitsoService,
                                private val dao: AvailableBookDao) : BooksRepository {
 
    override suspend fun search(query: String): List<AvailableBook> {
@@ -16,7 +16,7 @@ open class BooksRepositoryImpl(private val bitsoService: BitsoService,
 
     override suspend fun getRxBooks(): List<AvailableBook> {
         return try {
-            val response = bitsoService.getRxBooks()
+            val response = service.getRxBooks()
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.single())
                 .map { it.payload }.blockingSingle()
@@ -32,7 +32,7 @@ open class BooksRepositoryImpl(private val bitsoService: BitsoService,
 
     override suspend fun getBooks(): List<AvailableBook> {
         return try {
-            val response = bitsoService.getBooks().payload
+            val response = service.getBooks().payload
             val books = response.map { AvailableBookModel.fromAvailableBook(it) }
             dao.saveAvailableBooks(books)
             getLocalBooks()

@@ -1,7 +1,6 @@
 package com.jmadrigal.capstone.features.books.repository
 
 import com.jmadrigal.capstone.core.database.AvailableBookDao
-import com.jmadrigal.capstone.core.models.AvailableBook
 import com.jmadrigal.capstone.core.models.AvailableBooksResponse
 import com.jmadrigal.capstone.core.network.BitsoService
 import io.mockk.MockKAnnotations
@@ -18,7 +17,7 @@ internal class BooksRepositoryImplTest {
     lateinit var service: BitsoService
 
     @RelaxedMockK
-    lateinit var dao : AvailableBookDao
+    lateinit var dao: AvailableBookDao
     lateinit var repository: BooksRepositoryImpl
 
     @Before
@@ -29,7 +28,7 @@ internal class BooksRepositoryImplTest {
 
     @Test
     fun testSuccessBooks() = runBlocking {
-        val response = AvailableBooksResponse(true, ArrayList<AvailableBook>())
+        val response = AvailableBooksResponse(true, ArrayList())
         // Given
         coEvery { service.getBooks() } returns response
         coEvery { dao.getAvailableBook() } returns listOf()

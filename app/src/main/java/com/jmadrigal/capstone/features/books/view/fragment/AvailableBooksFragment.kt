@@ -6,23 +6,27 @@ import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jmadrigal.capstone.R
 import com.jmadrigal.capstone.core.models.AvailableBook
 import com.jmadrigal.capstone.databinding.FragmentAvailableBooksBinding
 import com.jmadrigal.capstone.features.books.view.adapter.AvailableBooksAdapter
 import com.jmadrigal.capstone.features.books.viewmodel.BooksViewModel
+import com.jmadrigal.capstone.utils.findNavControllerSafely
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class AvailableBooksFragment : Fragment() {
+class AvailableBooksFragment @Inject constructor() : Fragment(R.layout.fragment_available_books) {
 
     private var _binding: FragmentAvailableBooksBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: BooksViewModel by activityViewModels()
+
+    private val viewModel: BooksViewModel by viewModels()
     private val availableBooksAdapter by lazy { AvailableBooksAdapter { onBookSelected(it) } }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,22 +34,14 @@ class AvailableBooksFragment : Fragment() {
         setHasOptionsMenu(true)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        _binding = FragmentAvailableBooksBinding.inflate(inflater, container, false)
-        _binding?.let {
-            return it.root
-        }
-        return super.onCreateView(inflater, container, savedInstanceState)
-    }
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        _binding = FragmentAvailableBooksBinding.bind(view)
         setupListeners()
         setupObservers()
-        binding.shimmer.startShimmer()
-        //viewModel.getBooks()
-        viewModel.getRxBooks()
+        binding.shimmerAvB.startShimmer()
+        viewModel.getBooks()
+        //viewModel.getRxBooks()
     }
 
     private fun setupListeners() {
@@ -55,25 +51,31 @@ class AvailableBooksFragment : Fragment() {
     }
 
     private fun setupObservers() {
-        viewModel.chip.observe(viewLifecycleOwner){
-            binding.searchChip.visibility = if (it == null) View.GONE else View.VISIBLE
-            binding.searchChip.text = it
+
+        lifecycleScope.launch {
+            viewModel.books.collect {
+                setupRecycler(it)
+            }
         }
 
-        viewModel.books.observe(viewLifecycleOwner) {
-            setupRecycler(it)
+        lifecycleScope.launch {
+            viewModel.chip.collect {
+                binding.searchChip.visibility = if (it == null) View.GONE else View.VISIBLE
+                binding.searchChip.text = it
+            }
         }
+
     }
 
     private fun setupRecycler(bookList: List<AvailableBook>) {
         availableBooksAdapter.submitList(bookList)
-        binding.recycler.apply {
+        binding.rvAvailableBooks.apply {
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(true)
             adapter = availableBooksAdapter
         }
-        binding.shimmer.stopShimmer()
-        binding.shimmer.visibility = View.GONE
+        binding.shimmerAvB.stopShimmer()
+        binding.shimmerAvB.visibility = View.GONE
     }
 
     private fun onBookSelected(book: AvailableBook) {
@@ -82,7 +84,7 @@ class AvailableBooksFragment : Fragment() {
 
     private fun navToDetails(book: AvailableBook) {
         val action = AvailableBooksFragmentDirections.actionNavToDetail(book)
-        findNavController().navigate(action)
+        findNavControllerSafely(R.id.availableBooksFragment)?.navigate(action)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -91,7 +93,7 @@ class AvailableBooksFragment : Fragment() {
         val searchManager = requireActivity().getSystemService(Context.SEARCH_SERVICE) as SearchManager
         val searchView: SearchView = searchItem?.actionView as SearchView
         searchView.setSearchableInfo(searchManager.getSearchableInfo(requireActivity().componentName))
-        searchView.queryHint = "Buscar una cripto"
+        searchView.queryHint = getString(R.string.hint_query_search)
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
@@ -114,11 +116,11 @@ class AvailableBooksFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        _binding?.shimmer?.startShimmer()
+        _binding?.shimmerAvB?.startShimmer()
     }
 
     override fun onPause() {
-        _binding?.shimmer?.stopShimmer()
+        _binding?.shimmerAvB?.stopShimmer()
         super.onPause()
     }
 

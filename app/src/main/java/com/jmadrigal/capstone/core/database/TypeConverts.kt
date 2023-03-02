@@ -1,10 +1,10 @@
 package com.jmadrigal.capstone.core.database
 
-import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.jmadrigal.capstone.core.models.Ask
+import com.jmadrigal.capstone.utils.genericType
 import java.lang.reflect.Type
 
 class TypeConverts {
@@ -19,11 +19,10 @@ class TypeConverts {
 
     @TypeConverter
     fun toAsk(value: String?): List<Ask>? {
-        return if (value == null){
+        return if (value == null) {
             null
         } else {
-            val listType: Type = object : TypeToken<ArrayList<Ask?>?>() {}.getType()
-            Gson().fromJson(value, listType)
+            Gson().fromJson(value, genericType<ArrayList<Ask?>>())
         }
     }
 }
