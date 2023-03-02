@@ -6,8 +6,8 @@ import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jmadrigal.capstone.R
 import com.jmadrigal.capstone.core.models.AvailableBook
@@ -58,7 +58,7 @@ class AvailableBooksFragment @Inject constructor() : Fragment(R.layout.fragment_
             }
         }
 
-        lifecycleScope.launch{
+        lifecycleScope.launch {
             viewModel.chip.collect {
                 binding.searchChip.visibility = if (it == null) View.GONE else View.VISIBLE
                 binding.searchChip.text = it
@@ -83,7 +83,7 @@ class AvailableBooksFragment @Inject constructor() : Fragment(R.layout.fragment_
     }
 
     private fun navToDetails(book: AvailableBook) {
-        val action = AvailableBooksFragmentDirections.actionNavToDetail( book)
+        val action = AvailableBooksFragmentDirections.actionNavToDetail(book)
         findNavControllerSafely(R.id.availableBooksFragment)?.navigate(action)
     }
 
